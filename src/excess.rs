@@ -42,7 +42,7 @@ where
     PadBlock: Display,
 {
     panic!(
-        "item's width ({}) is greater than total_width ({})",
+        "value's width ({}) is greater than total_width ({})",
         excess.value_width, excess.total_width,
     )
 }
