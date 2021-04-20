@@ -1,0 +1,11 @@
+[package]
+name = "padded-column"
+version = "0.0.0"
+authors = ["khai96_ <hvksmr1996@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+derive_builder = "^0.10.0"
+derive_more = "^0.99.13"
+fmt-iter = "^0.1.0"
+unicode-width = "^0.1.8"
