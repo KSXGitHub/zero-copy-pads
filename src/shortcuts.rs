@@ -1,5 +1,9 @@
-use crate::{PadDirection, PaddedColumn, PaddedItem, Width, DEFAULT_EXCESS_HANDLER};
-use std::iter::FromIterator;
+use crate::{PadDirection, PaddedItem, Width, DEFAULT_EXCESS_HANDLER};
+
+#[cfg(feature = "std")]
+use crate::PaddedColumn;
+#[cfg(feature = "std")]
+use core::iter::FromIterator;
 
 macro_rules! single_fn {
     ($(#[$attributes:meta])* $name:ident = $direction:ident) => {
@@ -84,11 +88,13 @@ single_fn! {
 }
 
 multi_fn! {
+    #[cfg(feature = "std")]
     #[doc = "Pad space characters to the left of every value so that they all share the same width."]
     pad_column_left = Left
 }
 
 multi_fn! {
+    #[cfg(feature = "std")]
     #[doc = "Pad space characters to the right of every value so that they all share the same width."]
     pad_column_right = Right
 }

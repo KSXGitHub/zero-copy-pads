@@ -1,5 +1,5 @@
 use crate::Width;
-use std::fmt::{Display, Error, Formatter};
+use core::fmt::{Display, Error, Formatter};
 
 /// Information about a situation where `total_width` is less than `value.width()`.
 ///

@@ -1,9 +1,12 @@
 use crate::{Excess, ExcessHandler, PadDirection, Width};
+use core::fmt::{Display, Error, Formatter};
+
+#[cfg(feature = "std")]
 use derive_builder::Builder;
-use std::fmt::{Display, Error, Formatter};
 
 /// Pad a single value.
-#[derive(Debug, Clone, Copy, Builder)]
+#[derive(Debug, Clone, Copy)]
+#[cfg_attr(feature = "std", derive(Builder))]
 pub struct PaddedItem<Value, PadBlock = char, HandleExcess = ExcessHandler<Value, PadBlock>>
 where
     Value: Width,

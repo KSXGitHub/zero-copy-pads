@@ -1,3 +1,5 @@
+#![cfg(feature = "std")]
+
 use crate::{forbid_excess, ExcessHandler, PadDirection, PaddedItem, Width};
 use derive_builder::Builder;
 use std::{collections::LinkedList, fmt::Display, iter::FromIterator};

@@ -1,7 +1,7 @@
 pub use unicode_width::{UnicodeWidthChar, UnicodeWidthStr, UNICODE_VERSION};
 
+use core::fmt::{Display, Error, Formatter};
 use derive_more::{AsMut, AsRef, Deref, DerefMut, From};
-use std::fmt::{Display, Error, Formatter};
 
 /// Value that has width.
 pub trait Width: Display {
@@ -15,6 +15,7 @@ impl Width for &str {
     }
 }
 
+#[cfg(feature = "std")]
 impl Width for String {
     fn width(&self) -> usize {
         Width::width(&self.as_str())
