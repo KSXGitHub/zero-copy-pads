@@ -41,7 +41,7 @@ where
         } = self;
         let total_width = *total_width;
         let value_width = value.width();
-        let pad_width = if total_width > value_width {
+        let pad_width = if total_width >= value_width {
             total_width - value_width
         } else {
             return handle_excess(
