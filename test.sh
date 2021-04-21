@@ -22,3 +22,4 @@ test() {
 test
 test --no-default-features
 test --all-features
+run cargo fmt -- --check
