@@ -113,6 +113,7 @@ macro_rules! preset {
 
 preset! {
     impl |excess, formatter| write!(formatter, "{}", excess.value);
+
     #[doc = "Ignore excess, write `value` to `formatter` without padding."]
     #[doc = ""]
     #[doc = "**When `value.width()` is not greater than `total_width`,"]
@@ -145,6 +146,7 @@ preset! {
     #[doc = r#"assert_eq!(padded_item.to_string(), "abcdefghijkl");"#]
     #[doc = "```"]
     struct IgnoreExcess;
+
     #[doc = "Create a [`ExcessHandlingFunction`] that ignores excesses."]
     #[doc = ""]
     #[doc = "see [`IgnoreExcess`]."]
@@ -156,8 +158,10 @@ preset! {
         "value's width ({}) is greater than total_width ({})",
         excess.value_width, excess.total_width,
     );
+
     #[doc = "Forbid all excesses, panic once encounter one."]
     struct ForbidExcess;
+
     #[doc = "Create a [`ExcessHandlingFunction`] that forbids excesses."]
     #[doc = ""]
     #[doc = "see [`ForbidExcess`]."]
