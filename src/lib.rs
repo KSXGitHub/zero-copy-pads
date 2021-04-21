@@ -1,12 +1,12 @@
 #![cfg_attr(not(feature = "std"), no_std)]
 
-mod direction;
+mod alignment;
 mod excess;
 mod shortcuts;
 mod value;
 mod width;
 
-pub use direction::*;
+pub use alignment::*;
 pub use excess::*;
 pub use shortcuts::*;
 pub use value::*;

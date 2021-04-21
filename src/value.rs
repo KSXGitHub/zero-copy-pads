@@ -1,4 +1,4 @@
-use crate::{Excess, ExcessHandler, ExcessHandlingFunction, PadDirection, Width};
+use crate::{Alignment, Excess, ExcessHandler, ExcessHandlingFunction, Width};
 use core::fmt::{Display, Error, Formatter};
 
 #[cfg(feature = "std")]
@@ -13,12 +13,12 @@ use derive_builder::Builder;
 ///
 /// ```
 /// # use pretty_assertions::assert_eq;
-/// use padded_column::{PaddedValue, PadDirection, ForbidExcess};
+/// use padded_column::{PaddedValue, Alignment, ForbidExcess};
 /// let padded_value = PaddedValue {
 ///     value: "abcdef",
 ///     pad_block: '-',
 ///     total_width: 9,
-///     pad_direction: PadDirection::Left,
+///     pad_direction: Alignment::Right,
 ///     handle_excess: ForbidExcess,
 /// };
 /// assert_eq!(padded_value.to_string(), "---abcdef");
@@ -29,12 +29,12 @@ use derive_builder::Builder;
 /// ```
 /// # #[cfg(feature = "std")] fn main() {
 /// # use pretty_assertions::assert_eq;
-/// use padded_column::{PaddedValueBuilder, PadDirection, ForbidExcess};
+/// use padded_column::{PaddedValueBuilder, Alignment, ForbidExcess};
 /// let padded_value = PaddedValueBuilder::default()
 ///     .value("abcdef")
 ///     .pad_block('-')
 ///     .total_width(9)
-///     .pad_direction(PadDirection::Left)
+///     .pad_direction(Alignment::Right)
 ///     .handle_excess(ForbidExcess)
 ///     .build()
 ///     .unwrap();
@@ -60,7 +60,7 @@ pub struct PaddedValue<
     /// Total width to fulfill.
     pub total_width: usize,
     /// Where to place the pad.
-    pub pad_direction: PadDirection,
+    pub pad_direction: Alignment,
     /// How to write when the actual width of `value` exceeds `total_width`.
     pub handle_excess: HandleExcess,
 }
@@ -96,8 +96,8 @@ where
         };
         let pad = fmt_iter::repeat(pad_block, pad_width);
         match *pad_direction {
-            PadDirection::Left => write!(formatter, "{}{}", pad, value),
-            PadDirection::Right => write!(formatter, "{}{}", value, pad),
+            Alignment::Right => write!(formatter, "{}{}", pad, value),
+            Alignment::Left => write!(formatter, "{}{}", value, pad),
         }
     }
 }

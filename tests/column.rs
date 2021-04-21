@@ -1,5 +1,5 @@
 #![cfg(feature = "std")]
-use padded_column::{PadDirection, PaddedColumn};
+use padded_column::{Alignment, PaddedColumn};
 use pretty_assertions::assert_eq;
 
 const VALUES: &[&str] = &[
@@ -52,7 +52,7 @@ macro_rules! test_case {
             let padded_column = PaddedColumn {
                 values: values.into_iter(),
                 pad_block: '-',
-                pad_direction: PadDirection::$direction,
+                pad_direction: Alignment::$direction,
             };
             let actual: Vec<_> = padded_column.into_iter().map(|x| x.to_string()).collect();
             assert_eq!(actual, $expected);
@@ -63,7 +63,7 @@ macro_rules! test_case {
 test_case! {
     pad_left_array_of_str_slices
     where
-        direction = Left,
+        direction = Right,
         values = VALUES,
         expectation = EXPECTED_LEFT,
 }
@@ -71,7 +71,7 @@ test_case! {
 test_case! {
     pad_right_array_of_str_slices
     where
-        direction = Right,
+        direction = Left,
         values = VALUES,
         expectation = EXPECTED_RIGHT,
 }
@@ -79,7 +79,7 @@ test_case! {
 test_case! {
     pad_left_vec_of_str_indirect_references
     where
-        direction = Left,
+        direction = Right,
         values = VALUES.iter().collect::<Vec<&&str>>(),
         expectation = EXPECTED_LEFT,
 }
@@ -87,7 +87,7 @@ test_case! {
 test_case! {
     pad_right_vec_of_str_indirect_references
     where
-        direction = Right,
+        direction = Left,
         values = VALUES.iter().collect::<Vec<&&str>>(),
         expectation = EXPECTED_RIGHT,
 }
@@ -95,7 +95,7 @@ test_case! {
 test_case! {
     pad_left_vec_of_owned_strings
     where
-        direction = Left,
+        direction = Right,
         values = VALUES.iter().map(ToString::to_string).collect::<Vec<String>>(),
         expectation = EXPECTED_LEFT,
 }
@@ -103,7 +103,7 @@ test_case! {
 test_case! {
     pad_right_vec_of_owned_strings
     where
-        direction = Right,
+        direction = Left,
         values = VALUES.iter().map(ToString::to_string).collect::<Vec<String>>(),
         expectation = EXPECTED_RIGHT,
 }
@@ -111,7 +111,7 @@ test_case! {
 test_case! {
     pad_left_vec_of_str_slices
     where
-        direction = Left,
+        direction = Right,
         values = VALUES.iter().copied().collect::<Vec<&str>>(),
         expectation = EXPECTED_LEFT,
 }
@@ -119,7 +119,7 @@ test_case! {
 test_case! {
     pad_right_vec_of_str_slices
     where
-        direction = Right,
+        direction = Left,
         values = VALUES.iter().copied().collect::<Vec<&str>>(),
         expectation = EXPECTED_RIGHT,
 }

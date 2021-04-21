@@ -1,6 +1,6 @@
 #![cfg(feature = "std")]
 
-use crate::{ForbidExcess, PadDirection, PaddedValue, Width};
+use crate::{Alignment, ForbidExcess, PaddedValue, Width};
 use derive_builder::Builder;
 use std::{cmp::max, collections::LinkedList, fmt::Display};
 
@@ -10,7 +10,7 @@ use std::{cmp::max, collections::LinkedList, fmt::Display};
 ///
 /// ```
 /// # use pretty_assertions::assert_eq;
-/// use padded_column::{PaddedColumn, PadDirection};
+/// use padded_column::{PaddedColumn, Alignment};
 /// let values = vec![
 ///     "Rust", "C", "C++", "C#", "JavaScript",
 ///     "TypeScript", "Java", "Kotlin", "Go",
@@ -18,7 +18,7 @@ use std::{cmp::max, collections::LinkedList, fmt::Display};
 /// let padded_column = PaddedColumn {
 ///     values: values.iter(),
 ///     pad_block: ' ',
-///     pad_direction: PadDirection::Left,
+///     pad_direction: Alignment::Right,
 /// };
 /// let padded_values: Vec<_> = padded_column
 ///     .into_iter()
@@ -43,7 +43,7 @@ where
     /// Block of the pad (expected to have width of 1).
     pub pad_block: PadBlock,
     /// Where to place the pad.
-    pub pad_direction: PadDirection,
+    pub pad_direction: Alignment,
 }
 
 impl<ValueIter, PadBlock> IntoIterator for PaddedColumn<ValueIter, PadBlock>
@@ -84,7 +84,7 @@ where
 {
     value_iter: <LinkedList<Value> as IntoIterator>::IntoIter,
     pad_block: PadBlock,
-    pad_direction: PadDirection,
+    pad_direction: Alignment,
     total_width: usize,
 }
 

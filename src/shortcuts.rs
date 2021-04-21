@@ -1,4 +1,4 @@
-use crate::{IgnoreExcess, PadDirection, PaddedValue, Width};
+use crate::{Alignment, IgnoreExcess, PaddedValue, Width};
 
 #[cfg(feature = "std")]
 use crate::{ForbidExcess, PaddedColumn};
@@ -14,7 +14,7 @@ macro_rules! single_fn {
                 value,
                 total_width,
                 pad_block: ' ',
-                pad_direction: PadDirection::$direction,
+                pad_direction: Alignment::$direction,
                 handle_excess: IgnoreExcess,
             }
         }
@@ -35,7 +35,7 @@ macro_rules! multi_fn {
             PaddedColumn {
                 values,
                 pad_block: ' ',
-                pad_direction: PadDirection::$direction,
+                pad_direction: Alignment::$direction,
             }
             .into_iter()
         }
@@ -64,7 +64,7 @@ single_fn! {
     #[doc = "let padded_value = pad_left(value, 5);"]
     #[doc = "assert_eq!(padded_value.to_string(), value);"]
     #[doc = "```"]
-    pad_left = Left
+    pad_left = Right
 }
 
 single_fn! {
@@ -89,7 +89,7 @@ single_fn! {
     #[doc = "let padded_value = pad_right(value, 5);"]
     #[doc = "assert_eq!(padded_value.to_string(), value);"]
     #[doc = "```"]
-    pad_right = Right
+    pad_right = Left
 }
 
 multi_fn! {
@@ -114,7 +114,7 @@ multi_fn! {
     #[doc = r#"];"#]
     #[doc = "assert_eq!(padded_values, expected);"]
     #[doc = "```"]
-    pad_column_left = Left
+    pad_column_left = Right
 }
 
 multi_fn! {
@@ -139,5 +139,5 @@ multi_fn! {
     #[doc = r#"];"#]
     #[doc = "assert_eq!(padded_values, expected);"]
     #[doc = "```"]
-    pad_column_right = Right
+    pad_column_right = Left
 }

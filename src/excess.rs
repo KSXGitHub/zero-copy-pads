@@ -27,7 +27,7 @@ where
 ///
 /// ```
 /// # use pretty_assertions::assert_eq;
-/// use padded_column::{ExcessHandler, Excess, PaddedValue, PadDirection};
+/// use padded_column::{ExcessHandler, Excess, PaddedValue, Alignment};
 /// use std::fmt::{Formatter, Result};
 /// struct TruncateExcessiveString;
 /// impl ExcessHandler<&str> for TruncateExcessiveString {
@@ -42,7 +42,7 @@ where
 ///     value: "abcdefghi",
 ///     total_width: 4,
 ///     pad_block: ' ',
-///     pad_direction: PadDirection::Left,
+///     pad_direction: Alignment::Right,
 /// };
 /// assert_eq!(padded_value.to_string(), "abcd");
 /// ```
@@ -68,7 +68,7 @@ type ExcessHandlingFunctionInner<Value, PadBlock> =
 ///
 /// ```
 /// # use pretty_assertions::assert_eq;
-/// use padded_column::{ExcessHandlingFunction, Excess, PaddedValue, PadDirection};
+/// use padded_column::{ExcessHandlingFunction, Excess, PaddedValue, Alignment};
 /// use std::fmt::{Formatter, Result};
 /// let truncate = ExcessHandlingFunction::<&str>(|excess, formatter| {
 ///     let mut value = excess.value.to_string();
@@ -80,7 +80,7 @@ type ExcessHandlingFunctionInner<Value, PadBlock> =
 ///     value: "abcdefghi",
 ///     total_width: 4,
 ///     pad_block: ' ',
-///     pad_direction: PadDirection::Left,
+///     pad_direction: Alignment::Right,
 /// };
 /// assert_eq!(padded_value.to_string(), "abcd");
 /// ```
@@ -165,13 +165,13 @@ preset! {
     #[doc = "add pads as usual:**"]
     #[doc = "```"]
     #[doc = "# use pretty_assertions::assert_eq;"]
-    #[doc = "use padded_column::{PaddedValue, PadDirection, IgnoreExcess};"]
+    #[doc = "use padded_column::{PaddedValue, Alignment, IgnoreExcess};"]
     #[doc = "let padded_value = PaddedValue {"]
     #[doc = r#"    handle_excess: IgnoreExcess,"#]
     #[doc = r#"    value: "abcdef","#]
     #[doc = r#"    pad_block: '-',"#]
     #[doc = r#"    total_width: 9,"#]
-    #[doc = r#"    pad_direction: PadDirection::Left,"#]
+    #[doc = r#"    pad_direction: Alignment::Right,"#]
     #[doc = "};"]
     #[doc = r#"assert_eq!(padded_value.to_string(), "---abcdef");"#]
     #[doc = "```"]
@@ -180,13 +180,13 @@ preset! {
     #[doc = "display `value` as is:**"]
     #[doc = "```"]
     #[doc = "# use pretty_assertions::assert_eq;"]
-    #[doc = "use padded_column::{PaddedValue, PadDirection, IgnoreExcess};"]
+    #[doc = "use padded_column::{PaddedValue, Alignment, IgnoreExcess};"]
     #[doc = "let padded_value = PaddedValue {"]
     #[doc = r#"    handle_excess: IgnoreExcess,"#]
     #[doc = r#"    value: "abcdefghijkl","#]
     #[doc = r#"    pad_block: '-',"#]
     #[doc = r#"    total_width: 9,"#]
-    #[doc = r#"    pad_direction: PadDirection::Left,"#]
+    #[doc = r#"    pad_direction: Alignment::Right,"#]
     #[doc = "};"]
     #[doc = r#"assert_eq!(padded_value.to_string(), "abcdefghijkl");"#]
     #[doc = "```"]
@@ -210,13 +210,13 @@ preset! {
     #[doc = "add pads as usual:**"]
     #[doc = "```"]
     #[doc = "# use pretty_assertions::assert_eq;"]
-    #[doc = "use padded_column::{PaddedValue, PadDirection, ForbidExcess};"]
+    #[doc = "use padded_column::{PaddedValue, Alignment, ForbidExcess};"]
     #[doc = "let padded_value = PaddedValue {"]
     #[doc = r#"    handle_excess: ForbidExcess,"#]
     #[doc = r#"    value: "abcdef","#]
     #[doc = r#"    pad_block: '-',"#]
     #[doc = r#"    total_width: 9,"#]
-    #[doc = r#"    pad_direction: PadDirection::Left,"#]
+    #[doc = r#"    pad_direction: Alignment::Right,"#]
     #[doc = "};"]
     #[doc = r#"assert_eq!(padded_value.to_string(), "---abcdef");"#]
     #[doc = "```"]
@@ -224,13 +224,13 @@ preset! {
     #[doc = "**When `value.width()` is greater than `total_width`, panic:**"]
     #[doc = "```should_panic"]
     #[doc = "# use pretty_assertions::assert_eq;"]
-    #[doc = "use padded_column::{PaddedValue, PadDirection, ForbidExcess};"]
+    #[doc = "use padded_column::{PaddedValue, Alignment, ForbidExcess};"]
     #[doc = "let padded_value = PaddedValue {"]
     #[doc = r#"    handle_excess: ForbidExcess,"#]
     #[doc = r#"    value: "abcdefghijkl","#]
     #[doc = r#"    pad_block: '-',"#]
     #[doc = r#"    total_width: 9,"#]
-    #[doc = r#"    pad_direction: PadDirection::Left,"#]
+    #[doc = r#"    pad_direction: Alignment::Right,"#]
     #[doc = "};"]
     #[doc = r#"assert_eq!(padded_value.to_string(), "abcdefghijkl");"#]
     #[doc = "```"]

@@ -1,4 +1,4 @@
-use padded_column::{ForbidExcess, IgnoreExcess, PadDirection, PaddedValue};
+use padded_column::{Alignment, ForbidExcess, IgnoreExcess, PaddedValue};
 use pretty_assertions::assert_eq;
 
 macro_rules! create {
@@ -8,7 +8,7 @@ macro_rules! create {
             value: $value,
             total_width: $total_width,
             pad_block: '-',
-            pad_direction: PadDirection::Left,
+            pad_direction: Alignment::Right,
         }
         .to_string()
     };
