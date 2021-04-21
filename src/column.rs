@@ -27,8 +27,7 @@ where
     PadBlock: Display + Copy,
 {
     type Item = PaddedItem<ValueList::Item, PadBlock, ExcessHandler<ValueList::Item, PadBlock>>;
-    type IntoIter =
-        PaddedColumnIter<<LinkedList<ValueList::Item> as IntoIterator>::IntoIter, PadBlock>;
+    type IntoIter = PaddedColumnIter<ValueList::Item, PadBlock>;
     fn into_iter(self) -> Self::IntoIter {
         let PaddedColumn {
             values,
@@ -51,26 +50,24 @@ where
 }
 
 /// Iterator of [`PaddedColumn`].
-#[derive(Debug, Clone, Copy)]
-pub struct PaddedColumnIter<ValueIter, PadBlock = char>
+#[derive(Debug, Clone)]
+pub struct PaddedColumnIter<Value, PadBlock = char>
 where
-    ValueIter: Iterator,
-    ValueIter::Item: Width,
+    Value: Width,
     PadBlock: Display + Copy,
 {
-    value_iter: ValueIter,
+    value_iter: <LinkedList<Value> as IntoIterator>::IntoIter,
     pad_block: PadBlock,
     pad_direction: PadDirection,
     total_width: usize,
 }
 
-impl<ValueIter, PadBlock> Iterator for PaddedColumnIter<ValueIter, PadBlock>
+impl<Value, PadBlock> Iterator for PaddedColumnIter<Value, PadBlock>
 where
-    ValueIter: Iterator,
-    ValueIter::Item: Width,
+    Value: Width,
     PadBlock: Display + Copy,
 {
-    type Item = PaddedItem<ValueIter::Item, PadBlock, ExcessHandler<ValueIter::Item, PadBlock>>;
+    type Item = PaddedItem<Value, PadBlock, ExcessHandler<Value, PadBlock>>;
 
     fn next(&mut self) -> Option<Self::Item> {
         let PaddedColumnIter {
