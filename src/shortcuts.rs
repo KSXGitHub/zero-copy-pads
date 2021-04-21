@@ -1,18 +1,21 @@
-use crate::{ignore_excess, PadDirection, PaddedItem, Width};
+use crate::{IgnoreExcess, PadDirection, PaddedItem, Width};
 
 #[cfg(feature = "std")]
-use crate::PaddedColumn;
+use crate::{ForbidExcess, PaddedColumn};
 
 macro_rules! single_fn {
     ($(#[$attributes:meta])* $name:ident = $direction:ident) => {
         $(#[$attributes])*
-        pub fn $name<Value: Width>(value: Value, total_width: usize) -> PaddedItem<Value> {
+        pub fn $name<Value: Width>(
+            value: Value,
+            total_width: usize
+        ) -> PaddedItem<Value, char, IgnoreExcess> {
             PaddedItem {
                 value,
                 total_width,
                 pad_block: ' ',
                 pad_direction: PadDirection::$direction,
-                handle_excess: ignore_excess(),
+                handle_excess: IgnoreExcess,
             }
         }
     };
@@ -22,7 +25,9 @@ macro_rules! multi_fn {
     ($(#[$attributes:meta])* $name:ident = $direction:ident) => {
         $(#[$attributes])*
         #[cfg(feature = "std")]
-        pub fn $name<ValueList>(values: ValueList) -> impl Iterator<Item = PaddedItem<ValueList::Item>>
+        pub fn $name<ValueList>(
+            values: ValueList
+        ) -> impl Iterator<Item = PaddedItem<ValueList::Item, char, ForbidExcess>>
         where
             ValueList: IntoIterator,
             ValueList::Item: Width,
