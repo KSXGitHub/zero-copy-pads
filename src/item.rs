@@ -1,4 +1,4 @@
-use crate::{Excess, ExcessHandler, PadDirection, Width};
+use crate::{Excess, ExcessHandler, ExcessHandlingFunction, PadDirection, Width};
 use core::fmt::{Display, Error, Formatter};
 
 #[cfg(feature = "std")]
@@ -7,11 +7,14 @@ use derive_builder::Builder;
 /// Pad a single value.
 #[derive(Debug, Clone, Copy)]
 #[cfg_attr(feature = "std", derive(Builder))]
-pub struct PaddedItem<Value, PadBlock = char, HandleExcess = ExcessHandler<Value, PadBlock>>
-where
+pub struct PaddedItem<
+    Value,
+    PadBlock = char,
+    HandleExcess = ExcessHandlingFunction<Value, PadBlock>,
+> where
     Value: Width,
     PadBlock: Display,
-    HandleExcess: Fn(Excess<Value, PadBlock>, &mut Formatter<'_>) -> Result<(), Error>,
+    HandleExcess: ExcessHandler<Value, PadBlock>,
 {
     /// Value to be padded.
     pub value: Value,
@@ -29,7 +32,7 @@ impl<Value, PadBlock, HandleExcess> Display for PaddedItem<Value, PadBlock, Hand
 where
     Value: Width,
     PadBlock: Display,
-    HandleExcess: Fn(Excess<Value, PadBlock>, &mut Formatter<'_>) -> Result<(), Error>,
+    HandleExcess: ExcessHandler<Value, PadBlock>,
 {
     fn fmt(&self, formatter: &mut Formatter<'_>) -> Result<(), Error> {
         let PaddedItem {
@@ -44,7 +47,7 @@ where
         let pad_width = if total_width >= value_width {
             total_width - value_width
         } else {
-            return handle_excess(
+            return handle_excess.handle_excess(
                 Excess {
                     value,
                     value_width,

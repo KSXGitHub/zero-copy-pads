@@ -12,7 +12,7 @@ macro_rules! single_fn {
                 total_width,
                 pad_block: ' ',
                 pad_direction: PadDirection::$direction,
-                handle_excess: ignore_excess,
+                handle_excess: ignore_excess(),
             }
         }
     };

@@ -1,5 +1,6 @@
 use crate::Width;
 use core::fmt::{Display, Error, Formatter};
+use derive_more::{AsMut, AsRef, Deref, DerefMut, From};
 
 /// Information about a situation where `total_width` is less than `value.width()`.
 ///
@@ -20,33 +21,62 @@ where
     pub total_width: usize,
 }
 
-/// Ignore excess, write `value` to `formatter` without padding.
-pub fn ignore_excess<Value, PadBlock>(
-    excess: Excess<Value, PadBlock>,
-    formatter: &mut Formatter<'_>,
-) -> Result<(), Error>
+/// What to do when the width of the value exceeds total.
+pub trait ExcessHandler<Value, PadBlock>
 where
     Value: Width,
     PadBlock: Display,
 {
-    write!(formatter, "{}", excess.value)
+    /// Handle excessive width of a value.
+    fn handle_excess(
+        &self,
+        excess: Excess<Value, PadBlock>,
+        formatter: &mut Formatter<'_>,
+    ) -> Result<(), Error>;
+}
+
+/// Turn a function (without closure) into a [`ExcessHandler`].
+#[derive(Clone, Copy, AsMut, AsRef, Deref, DerefMut, From)]
+pub struct ExcessHandlingFunction<Value, PadBlock>(
+    pub fn(Excess<Value, PadBlock>, &mut Formatter<'_>) -> Result<(), Error>,
+)
+where
+    Value: Width,
+    PadBlock: Display;
+
+impl<Value, PadBlock> ExcessHandler<Value, PadBlock> for ExcessHandlingFunction<Value, PadBlock>
+where
+    Value: Width,
+    PadBlock: Display,
+{
+    fn handle_excess(
+        &self,
+        excess: Excess<Value, PadBlock>,
+        formatter: &mut Formatter<'_>,
+    ) -> Result<(), Error> {
+        self.0(excess, formatter)
+    }
+}
+
+/// Ignore excess, write `value` to `formatter` without padding.
+pub fn ignore_excess<Value, PadBlock>() -> ExcessHandlingFunction<Value, PadBlock>
+where
+    Value: Width,
+    PadBlock: Display,
+{
+    ExcessHandlingFunction(|excess, formatter| write!(formatter, "{}", excess.value))
 }
 
 /// Forbid all excesses, panic once encounter one.
-pub fn forbid_excess<Value, PadBlock>(
-    excess: Excess<Value, PadBlock>,
-    _: &mut Formatter<'_>,
-) -> Result<(), Error>
+pub fn forbid_excess<Value, PadBlock>() -> ExcessHandlingFunction<Value, PadBlock>
 where
     Value: Width,
     PadBlock: Display,
 {
-    panic!(
-        "value's width ({}) is greater than total_width ({})",
-        excess.value_width, excess.total_width,
-    )
+    ExcessHandlingFunction(|excess, _| {
+        panic!(
+            "value's width ({}) is greater than total_width ({})",
+            excess.value_width, excess.total_width,
+        )
+    })
 }
-
-/// Type of functions (not closures) that handles excess.
-pub type ExcessHandler<Value, PadBlock> =
-    fn(excess: Excess<Value, PadBlock>, &mut Formatter<'_>) -> Result<(), Error>;
