@@ -6,7 +6,7 @@ use derive_more::{AsMut, AsRef, Deref, DerefMut, From};
 ///
 /// This information is to be passed to an excess handler.
 #[derive(Debug, Clone, Copy)]
-pub struct Excess<'a, Value, PadBlock>
+pub struct Excess<'a, Value, PadBlock = char>
 where
     Value: Width,
     PadBlock: Display,
@@ -22,7 +22,7 @@ where
 }
 
 /// What to do when the width of the value exceeds total.
-pub trait ExcessHandler<Value, PadBlock>
+pub trait ExcessHandler<Value, PadBlock = char>
 where
     Value: Width,
     PadBlock: Display,
