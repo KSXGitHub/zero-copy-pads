@@ -15,23 +15,9 @@ impl Width for &str {
     }
 }
 
-#[cfg(feature = "std")]
-impl Width for String {
+impl<X: Width> Width for &X {
     fn width(&self) -> usize {
-        Width::width(&self.as_str())
-    }
-}
-
-impl Width for &&str {
-    fn width(&self) -> usize {
-        UnicodeWidthStr::width(**self)
-    }
-}
-
-#[cfg(feature = "std")]
-impl Width for &String {
-    fn width(&self) -> usize {
-        Width::width(&self.as_str())
+        X::width(*self)
     }
 }
 
