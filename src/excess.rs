@@ -35,10 +35,13 @@ where
     ) -> Result<(), Error>;
 }
 
+type ExcessHandlingFunctionInner<Value, PadBlock> =
+    fn(Excess<Value, PadBlock>, &mut Formatter<'_>) -> Result<(), Error>;
+
 /// Turn a function (without closure) into a [`ExcessHandler`].
 #[derive(Clone, Copy, AsMut, AsRef, Deref, DerefMut, From)]
 pub struct ExcessHandlingFunction<Value, PadBlock>(
-    pub fn(Excess<Value, PadBlock>, &mut Formatter<'_>) -> Result<(), Error>,
+    pub ExcessHandlingFunctionInner<Value, PadBlock>,
 )
 where
     Value: Width,
