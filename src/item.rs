@@ -5,6 +5,43 @@ use core::fmt::{Display, Error, Formatter};
 use derive_builder::Builder;
 
 /// Pad a single value.
+///
+/// **Key traits:**
+/// * [`Display`]: Displays the padded version of the value.
+///
+/// **Example:** Pad dash characters to the left of a string
+///
+/// ```
+/// # use pretty_assertions::assert_eq;
+/// use padded_column::{PaddedItem, PadDirection, ForbidExcess};
+/// let padded_item = PaddedItem {
+///     value: "abcdef",
+///     pad_block: '-',
+///     total_width: 9,
+///     pad_direction: PadDirection::Left,
+///     handle_excess: ForbidExcess,
+/// };
+/// assert_eq!(padded_item.to_string(), "---abcdef");
+/// ```
+///
+/// **Example:** Use a [builder](PaddedItemBuilder) _(requires `std` feature)_
+///
+/// ```
+/// # #[cfg(feature = "std")] fn main() {
+/// # use pretty_assertions::assert_eq;
+/// use padded_column::{PaddedItemBuilder, PadDirection, ForbidExcess};
+/// let padded_item = PaddedItemBuilder::default()
+///     .value("abcdef")
+///     .pad_block('-')
+///     .total_width(9)
+///     .pad_direction(PadDirection::Left)
+///     .handle_excess(ForbidExcess)
+///     .build()
+///     .unwrap();
+/// assert_eq!(padded_item.to_string(), "---abcdef");
+/// # }
+/// # #[cfg(not(feature = "std"))] fn main() {}
+/// ```
 #[derive(Debug, Clone, Copy)]
 #[cfg_attr(feature = "std", derive(Builder))]
 pub struct PaddedItem<
