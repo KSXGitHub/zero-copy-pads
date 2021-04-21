@@ -61,25 +61,75 @@ where
     }
 }
 
-/// Ignore excess, write `value` to `formatter` without padding.
-pub fn ignore_excess<Value, PadBlock>() -> ExcessHandlingFunction<Value, PadBlock>
-where
-    Value: Width,
-    PadBlock: Display,
-{
-    ExcessHandlingFunction(|excess, formatter| write!(formatter, "{}", excess.value))
+macro_rules! preset {
+    (
+        impl $implementation:expr;
+        $(#[$struct_attr:meta])*
+        struct $struct_name:ident;
+        $(#[$fn_attr:meta])*
+        fn $fn_name:ident;
+    ) => {
+        $(#[$struct_attr])*
+        #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+        pub struct $struct_name;
+
+        impl<Value, PadBlock> ExcessHandler<Value, PadBlock> for $struct_name
+        where
+            Value: Width,
+            PadBlock: Display,
+        {
+            fn handle_excess(
+                &self,
+                excess: Excess<Value, PadBlock>,
+                formatter: &mut Formatter<'_>,
+            ) -> Result<(), Error> {
+                let handle_excess: ExcessHandlingFunctionInner<Value, PadBlock> = $implementation;
+                handle_excess(excess, formatter)
+            }
+        }
+
+        impl<Value, PadBlock> From<$struct_name> for ExcessHandlingFunction<Value, PadBlock>
+        where
+            Value: Width,
+            PadBlock: Display,
+        {
+            fn from(_: $struct_name) -> Self {
+                ExcessHandlingFunction(|excess, formatter| {
+                    $struct_name.handle_excess(excess, formatter)
+                })
+            }
+        }
+
+        $(#[$fn_attr])*
+        pub fn $fn_name<Value, PadBlock>() -> ExcessHandlingFunction<Value, PadBlock>
+        where
+            Value: Width,
+            PadBlock: Display,
+        {
+            ExcessHandlingFunction::from($struct_name)
+        }
+    };
 }
 
-/// Forbid all excesses, panic once encounter one.
-pub fn forbid_excess<Value, PadBlock>() -> ExcessHandlingFunction<Value, PadBlock>
-where
-    Value: Width,
-    PadBlock: Display,
-{
-    ExcessHandlingFunction(|excess, _| {
-        panic!(
-            "value's width ({}) is greater than total_width ({})",
-            excess.value_width, excess.total_width,
-        )
-    })
+preset! {
+    impl |excess, formatter| write!(formatter, "{}", excess.value);
+    #[doc = "Ignore excess, write `value` to `formatter` without padding."]
+    struct IgnoreExcess;
+    #[doc = "Create a [`ExcessHandlingFunction`] that ignores excesses."]
+    #[doc = ""]
+    #[doc = "see [`IgnoreExcess`]."]
+    fn ignore_excess;
+}
+
+preset! {
+    impl |excess, _| panic!(
+        "value's width ({}) is greater than total_width ({})",
+        excess.value_width, excess.total_width,
+    );
+    #[doc = "Forbid all excesses, panic once encounter one."]
+    struct ForbidExcess;
+    #[doc = "Create a [`ExcessHandlingFunction`] that forbids excesses."]
+    #[doc = ""]
+    #[doc = "see [`ForbidExcess`]."]
+    fn forbid_excess;
 }
