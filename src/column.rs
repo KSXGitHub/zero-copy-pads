@@ -76,16 +76,12 @@ where
             pad_direction,
             total_width,
         } = self;
-        if let Some(value) = value_iter.next() {
-            Some(PaddedItem {
-                value,
-                pad_block: *pad_block,
-                pad_direction: *pad_direction,
-                total_width: *total_width,
-                handle_excess: ForbidExcess,
-            })
-        } else {
-            None
-        }
+        value_iter.next().map(|value| PaddedItem {
+            value,
+            pad_block: *pad_block,
+            pad_direction: *pad_direction,
+            total_width: *total_width,
+            handle_excess: ForbidExcess,
+        })
     }
 }
