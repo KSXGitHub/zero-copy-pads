@@ -9,13 +9,19 @@ pub trait Width: Display {
     fn width(&self) -> usize;
 }
 
+impl Width for str {
+    fn width(&self) -> usize {
+        UnicodeWidthStr::width(self)
+    }
+}
+
 impl Width for &str {
     fn width(&self) -> usize {
         UnicodeWidthStr::width(*self)
     }
 }
 
-impl<X: Width> Width for &X {
+impl<X: Width + Sized> Width for &X {
     fn width(&self) -> usize {
         X::width(*self)
     }
