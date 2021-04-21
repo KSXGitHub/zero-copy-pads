@@ -22,6 +22,30 @@ where
 }
 
 /// What to do when the width of the value exceeds total.
+///
+/// **Example:** Truncate to make it fit
+///
+/// ```
+/// # use pretty_assertions::assert_eq;
+/// use padded_column::{ExcessHandler, Excess, PaddedItem, PadDirection};
+/// use std::fmt::{Formatter, Result};
+/// struct TruncateExcessiveString;
+/// impl ExcessHandler<&str> for TruncateExcessiveString {
+///     fn handle_excess(&self, excess: Excess<&str>, formatter: &mut Formatter<'_>) -> Result {
+///         let mut value = excess.value.to_string();
+///         value.truncate(excess.total_width);
+///         write!(formatter, "{}", value)
+///     }
+/// }
+/// let padded_item = PaddedItem {
+///     handle_excess: TruncateExcessiveString,
+///     value: "abcdefghi",
+///     total_width: 4,
+///     pad_block: ' ',
+///     pad_direction: PadDirection::Left,
+/// };
+/// assert_eq!(padded_item.to_string(), "abcd");
+/// ```
 pub trait ExcessHandler<Value, PadBlock = char>
 where
     Value: Width,
@@ -39,6 +63,27 @@ type ExcessHandlingFunctionInner<Value, PadBlock> =
     fn(Excess<Value, PadBlock>, &mut Formatter<'_>) -> Result<(), Error>;
 
 /// Turn a function (without closure) into a [`ExcessHandler`].
+///
+/// **Example:** Truncate to make it fit
+///
+/// ```
+/// # use pretty_assertions::assert_eq;
+/// use padded_column::{ExcessHandlingFunction, Excess, PaddedItem, PadDirection};
+/// use std::fmt::{Formatter, Result};
+/// let truncate = ExcessHandlingFunction::<&str>(|excess, formatter| {
+///     let mut value = excess.value.to_string();
+///     value.truncate(excess.total_width);
+///     write!(formatter, "{}", value)
+/// });
+/// let padded_item = PaddedItem {
+///     handle_excess: truncate,
+///     value: "abcdefghi",
+///     total_width: 4,
+///     pad_block: ' ',
+///     pad_direction: PadDirection::Left,
+/// };
+/// assert_eq!(padded_item.to_string(), "abcd");
+/// ```
 #[derive(Clone, Copy, AsMut, AsRef, Deref, DerefMut, From)]
 pub struct ExcessHandlingFunction<Value, PadBlock = char>(
     pub ExcessHandlingFunctionInner<Value, PadBlock>,
