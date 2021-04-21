@@ -14,7 +14,7 @@ const VALUES: &[&str] = &[
     "Go",
 ];
 
-const EXPECTED_LEFT: &[&str] = &[
+const EXPECTED_RIGHT: &[&str] = &[
     "------Rust",
     "---------C",
     "-------C++",
@@ -26,7 +26,7 @@ const EXPECTED_LEFT: &[&str] = &[
     "--------Go",
 ];
 
-const EXPECTED_RIGHT: &[&str] = &[
+const EXPECTED_LEFT: &[&str] = &[
     "Rust------",
     "C---------",
     "C++-------",
@@ -65,7 +65,7 @@ test_case! {
     where
         direction = Right,
         values = VALUES,
-        expectation = EXPECTED_LEFT,
+        expectation = EXPECTED_RIGHT,
 }
 
 test_case! {
@@ -73,7 +73,7 @@ test_case! {
     where
         direction = Left,
         values = VALUES,
-        expectation = EXPECTED_RIGHT,
+        expectation = EXPECTED_LEFT,
 }
 
 test_case! {
@@ -81,7 +81,7 @@ test_case! {
     where
         direction = Right,
         values = VALUES.iter().collect::<Vec<&&str>>(),
-        expectation = EXPECTED_LEFT,
+        expectation = EXPECTED_RIGHT,
 }
 
 test_case! {
@@ -89,7 +89,7 @@ test_case! {
     where
         direction = Left,
         values = VALUES.iter().collect::<Vec<&&str>>(),
-        expectation = EXPECTED_RIGHT,
+        expectation = EXPECTED_LEFT,
 }
 
 test_case! {
@@ -97,7 +97,7 @@ test_case! {
     where
         direction = Right,
         values = VALUES.iter().map(ToString::to_string).collect::<Vec<String>>(),
-        expectation = EXPECTED_LEFT,
+        expectation = EXPECTED_RIGHT,
 }
 
 test_case! {
@@ -105,7 +105,7 @@ test_case! {
     where
         direction = Left,
         values = VALUES.iter().map(ToString::to_string).collect::<Vec<String>>(),
-        expectation = EXPECTED_RIGHT,
+        expectation = EXPECTED_LEFT,
 }
 
 test_case! {
@@ -113,7 +113,7 @@ test_case! {
     where
         direction = Right,
         values = VALUES.iter().copied().collect::<Vec<&str>>(),
-        expectation = EXPECTED_LEFT,
+        expectation = EXPECTED_RIGHT,
 }
 
 test_case! {
@@ -121,5 +121,5 @@ test_case! {
     where
         direction = Left,
         values = VALUES.iter().copied().collect::<Vec<&str>>(),
-        expectation = EXPECTED_RIGHT,
+        expectation = EXPECTED_LEFT,
 }
