@@ -7,15 +7,15 @@ pub enum PadDirection {
     ///
     /// ```
     /// # use pretty_assertions::assert_eq;
-    /// use padded_column::{PadDirection::Left, PaddedItem, ForbidExcess};
-    /// let padded_item = PaddedItem {
+    /// use padded_column::{PadDirection::Left, PaddedValue, ForbidExcess};
+    /// let padded_value = PaddedValue {
     ///     pad_direction: Left,
     ///     value: "abcdef",
     ///     pad_block: '-',
     ///     total_width: 9,
     ///     handle_excess: ForbidExcess,
     /// };
-    /// assert_eq!(padded_item.to_string(), "---abcdef");
+    /// assert_eq!(padded_value.to_string(), "---abcdef");
     /// ```
     Left,
 
@@ -25,15 +25,15 @@ pub enum PadDirection {
     ///
     /// ```
     /// # use pretty_assertions::assert_eq;
-    /// use padded_column::{PadDirection::Right, PaddedItem, ForbidExcess};
-    /// let padded_item = PaddedItem {
+    /// use padded_column::{PadDirection::Right, PaddedValue, ForbidExcess};
+    /// let padded_value = PaddedValue {
     ///     pad_direction: Right,
     ///     value: "abcdef",
     ///     pad_block: '-',
     ///     total_width: 9,
     ///     handle_excess: ForbidExcess,
     /// };
-    /// assert_eq!(padded_item.to_string(), "abcdef---");
+    /// assert_eq!(padded_value.to_string(), "abcdef---");
     /// ```
     Right,
 }

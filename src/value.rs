@@ -13,24 +13,24 @@ use derive_builder::Builder;
 ///
 /// ```
 /// # use pretty_assertions::assert_eq;
-/// use padded_column::{PaddedItem, PadDirection, ForbidExcess};
-/// let padded_item = PaddedItem {
+/// use padded_column::{PaddedValue, PadDirection, ForbidExcess};
+/// let padded_value = PaddedValue {
 ///     value: "abcdef",
 ///     pad_block: '-',
 ///     total_width: 9,
 ///     pad_direction: PadDirection::Left,
 ///     handle_excess: ForbidExcess,
 /// };
-/// assert_eq!(padded_item.to_string(), "---abcdef");
+/// assert_eq!(padded_value.to_string(), "---abcdef");
 /// ```
 ///
-/// **Example:** Use a [builder](PaddedItemBuilder) _(requires `std` feature)_
+/// **Example:** Use a [builder](PaddedValueBuilder) _(requires `std` feature)_
 ///
 /// ```
 /// # #[cfg(feature = "std")] fn main() {
 /// # use pretty_assertions::assert_eq;
-/// use padded_column::{PaddedItemBuilder, PadDirection, ForbidExcess};
-/// let padded_item = PaddedItemBuilder::default()
+/// use padded_column::{PaddedValueBuilder, PadDirection, ForbidExcess};
+/// let padded_value = PaddedValueBuilder::default()
 ///     .value("abcdef")
 ///     .pad_block('-')
 ///     .total_width(9)
@@ -38,13 +38,13 @@ use derive_builder::Builder;
 ///     .handle_excess(ForbidExcess)
 ///     .build()
 ///     .unwrap();
-/// assert_eq!(padded_item.to_string(), "---abcdef");
+/// assert_eq!(padded_value.to_string(), "---abcdef");
 /// # }
 /// # #[cfg(not(feature = "std"))] fn main() {}
 /// ```
 #[derive(Debug, Clone, Copy)]
 #[cfg_attr(feature = "std", derive(Builder))]
-pub struct PaddedItem<
+pub struct PaddedValue<
     Value,
     PadBlock = char,
     HandleExcess = ExcessHandlingFunction<Value, PadBlock>,
@@ -65,14 +65,14 @@ pub struct PaddedItem<
     pub handle_excess: HandleExcess,
 }
 
-impl<Value, PadBlock, HandleExcess> Display for PaddedItem<Value, PadBlock, HandleExcess>
+impl<Value, PadBlock, HandleExcess> Display for PaddedValue<Value, PadBlock, HandleExcess>
 where
     Value: Width,
     PadBlock: Display,
     HandleExcess: ExcessHandler<Value, PadBlock>,
 {
     fn fmt(&self, formatter: &mut Formatter<'_>) -> Result<(), Error> {
-        let PaddedItem {
+        let PaddedValue {
             value,
             pad_block,
             total_width,

@@ -1,4 +1,4 @@
-use crate::{IgnoreExcess, PadDirection, PaddedItem, Width};
+use crate::{IgnoreExcess, PadDirection, PaddedValue, Width};
 
 #[cfg(feature = "std")]
 use crate::{ForbidExcess, PaddedColumn};
@@ -9,8 +9,8 @@ macro_rules! single_fn {
         pub fn $name<Value: Width>(
             value: Value,
             total_width: usize
-        ) -> PaddedItem<Value, char, IgnoreExcess> {
-            PaddedItem {
+        ) -> PaddedValue<Value, char, IgnoreExcess> {
+            PaddedValue {
                 value,
                 total_width,
                 pad_block: ' ',
@@ -27,7 +27,7 @@ macro_rules! multi_fn {
         #[cfg(feature = "std")]
         pub fn $name<ValueList>(
             values: ValueList
-        ) -> impl Iterator<Item = PaddedItem<ValueList::Item, char, ForbidExcess>>
+        ) -> impl Iterator<Item = PaddedValue<ValueList::Item, char, ForbidExcess>>
         where
             ValueList: Iterator,
             ValueList::Item: Width,

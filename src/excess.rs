@@ -27,7 +27,7 @@ where
 ///
 /// ```
 /// # use pretty_assertions::assert_eq;
-/// use padded_column::{ExcessHandler, Excess, PaddedItem, PadDirection};
+/// use padded_column::{ExcessHandler, Excess, PaddedValue, PadDirection};
 /// use std::fmt::{Formatter, Result};
 /// struct TruncateExcessiveString;
 /// impl ExcessHandler<&str> for TruncateExcessiveString {
@@ -37,14 +37,14 @@ where
 ///         write!(formatter, "{}", value)
 ///     }
 /// }
-/// let padded_item = PaddedItem {
+/// let padded_value = PaddedValue {
 ///     handle_excess: TruncateExcessiveString,
 ///     value: "abcdefghi",
 ///     total_width: 4,
 ///     pad_block: ' ',
 ///     pad_direction: PadDirection::Left,
 /// };
-/// assert_eq!(padded_item.to_string(), "abcd");
+/// assert_eq!(padded_value.to_string(), "abcd");
 /// ```
 pub trait ExcessHandler<Value, PadBlock = char>
 where
@@ -68,21 +68,21 @@ type ExcessHandlingFunctionInner<Value, PadBlock> =
 ///
 /// ```
 /// # use pretty_assertions::assert_eq;
-/// use padded_column::{ExcessHandlingFunction, Excess, PaddedItem, PadDirection};
+/// use padded_column::{ExcessHandlingFunction, Excess, PaddedValue, PadDirection};
 /// use std::fmt::{Formatter, Result};
 /// let truncate = ExcessHandlingFunction::<&str>(|excess, formatter| {
 ///     let mut value = excess.value.to_string();
 ///     value.truncate(excess.total_width);
 ///     write!(formatter, "{}", value)
 /// });
-/// let padded_item = PaddedItem {
+/// let padded_value = PaddedValue {
 ///     handle_excess: truncate,
 ///     value: "abcdefghi",
 ///     total_width: 4,
 ///     pad_block: ' ',
 ///     pad_direction: PadDirection::Left,
 /// };
-/// assert_eq!(padded_item.to_string(), "abcd");
+/// assert_eq!(padded_value.to_string(), "abcd");
 /// ```
 #[derive(Clone, Copy, AsMut, AsRef, Deref, DerefMut, From)]
 pub struct ExcessHandlingFunction<Value, PadBlock = char>(
@@ -165,30 +165,30 @@ preset! {
     #[doc = "add pads as usual:**"]
     #[doc = "```"]
     #[doc = "# use pretty_assertions::assert_eq;"]
-    #[doc = "use padded_column::{PaddedItem, PadDirection, IgnoreExcess};"]
-    #[doc = "let padded_item = PaddedItem {"]
+    #[doc = "use padded_column::{PaddedValue, PadDirection, IgnoreExcess};"]
+    #[doc = "let padded_value = PaddedValue {"]
     #[doc = r#"    handle_excess: IgnoreExcess,"#]
     #[doc = r#"    value: "abcdef","#]
     #[doc = r#"    pad_block: '-',"#]
     #[doc = r#"    total_width: 9,"#]
     #[doc = r#"    pad_direction: PadDirection::Left,"#]
     #[doc = "};"]
-    #[doc = r#"assert_eq!(padded_item.to_string(), "---abcdef");"#]
+    #[doc = r#"assert_eq!(padded_value.to_string(), "---abcdef");"#]
     #[doc = "```"]
     #[doc = ""]
     #[doc = "**When `value.width()` is greater than `total_width`,"]
     #[doc = "display `value` as is:**"]
     #[doc = "```"]
     #[doc = "# use pretty_assertions::assert_eq;"]
-    #[doc = "use padded_column::{PaddedItem, PadDirection, IgnoreExcess};"]
-    #[doc = "let padded_item = PaddedItem {"]
+    #[doc = "use padded_column::{PaddedValue, PadDirection, IgnoreExcess};"]
+    #[doc = "let padded_value = PaddedValue {"]
     #[doc = r#"    handle_excess: IgnoreExcess,"#]
     #[doc = r#"    value: "abcdefghijkl","#]
     #[doc = r#"    pad_block: '-',"#]
     #[doc = r#"    total_width: 9,"#]
     #[doc = r#"    pad_direction: PadDirection::Left,"#]
     #[doc = "};"]
-    #[doc = r#"assert_eq!(padded_item.to_string(), "abcdefghijkl");"#]
+    #[doc = r#"assert_eq!(padded_value.to_string(), "abcdefghijkl");"#]
     #[doc = "```"]
     struct IgnoreExcess;
 
@@ -210,29 +210,29 @@ preset! {
     #[doc = "add pads as usual:**"]
     #[doc = "```"]
     #[doc = "# use pretty_assertions::assert_eq;"]
-    #[doc = "use padded_column::{PaddedItem, PadDirection, ForbidExcess};"]
-    #[doc = "let padded_item = PaddedItem {"]
+    #[doc = "use padded_column::{PaddedValue, PadDirection, ForbidExcess};"]
+    #[doc = "let padded_value = PaddedValue {"]
     #[doc = r#"    handle_excess: ForbidExcess,"#]
     #[doc = r#"    value: "abcdef","#]
     #[doc = r#"    pad_block: '-',"#]
     #[doc = r#"    total_width: 9,"#]
     #[doc = r#"    pad_direction: PadDirection::Left,"#]
     #[doc = "};"]
-    #[doc = r#"assert_eq!(padded_item.to_string(), "---abcdef");"#]
+    #[doc = r#"assert_eq!(padded_value.to_string(), "---abcdef");"#]
     #[doc = "```"]
     #[doc = ""]
     #[doc = "**When `value.width()` is greater than `total_width`, panic:**"]
     #[doc = "```should_panic"]
     #[doc = "# use pretty_assertions::assert_eq;"]
-    #[doc = "use padded_column::{PaddedItem, PadDirection, ForbidExcess};"]
-    #[doc = "let padded_item = PaddedItem {"]
+    #[doc = "use padded_column::{PaddedValue, PadDirection, ForbidExcess};"]
+    #[doc = "let padded_value = PaddedValue {"]
     #[doc = r#"    handle_excess: ForbidExcess,"#]
     #[doc = r#"    value: "abcdefghijkl","#]
     #[doc = r#"    pad_block: '-',"#]
     #[doc = r#"    total_width: 9,"#]
     #[doc = r#"    pad_direction: PadDirection::Left,"#]
     #[doc = "};"]
-    #[doc = r#"assert_eq!(padded_item.to_string(), "abcdefghijkl");"#]
+    #[doc = r#"assert_eq!(padded_value.to_string(), "abcdefghijkl");"#]
     #[doc = "```"]
     struct ForbidExcess;
 

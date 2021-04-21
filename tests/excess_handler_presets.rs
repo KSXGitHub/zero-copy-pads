@@ -1,9 +1,9 @@
-use padded_column::{ForbidExcess, IgnoreExcess, PadDirection, PaddedItem};
+use padded_column::{ForbidExcess, IgnoreExcess, PadDirection, PaddedValue};
 use pretty_assertions::assert_eq;
 
 macro_rules! create {
     ($handle_excess:expr, $value:expr, $total_width:expr) => {
-        PaddedItem {
+        PaddedValue {
             handle_excess: $handle_excess,
             value: $value,
             total_width: $total_width,
