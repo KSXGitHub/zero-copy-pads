@@ -22,6 +22,19 @@ impl Width for String {
     }
 }
 
+impl Width for &&str {
+    fn width(&self) -> usize {
+        UnicodeWidthStr::width(**self)
+    }
+}
+
+#[cfg(feature = "std")]
+impl Width for &String {
+    fn width(&self) -> usize {
+        Width::width(&self.as_str())
+    }
+}
+
 macro_rules! wrapper {
     (
         $(#[$attributes:meta])*
