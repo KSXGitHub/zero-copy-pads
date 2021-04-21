@@ -21,6 +21,7 @@ macro_rules! single_fn {
 macro_rules! multi_fn {
     ($(#[$attributes:meta])* $name:ident = $direction:ident) => {
         $(#[$attributes])*
+        #[cfg(feature = "std")]
         pub fn $name<ValueList>(values: ValueList) -> impl Iterator<Item = PaddedItem<ValueList::Item>>
         where
             ValueList: IntoIterator,
@@ -87,7 +88,6 @@ single_fn! {
 }
 
 multi_fn! {
-    #[cfg(feature = "std")]
     #[doc = "Pad space characters to the left of every value so that they all share the same width."]
     #[doc = ""]
     #[doc = "**Example:**"]
@@ -113,7 +113,6 @@ multi_fn! {
 }
 
 multi_fn! {
-    #[cfg(feature = "std")]
     #[doc = "Pad space characters to the right of every value so that they all share the same width."]
     #[doc = ""]
     #[doc = "**Example:**"]
