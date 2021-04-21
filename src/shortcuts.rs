@@ -2,8 +2,6 @@ use crate::{PadDirection, PaddedItem, Width, DEFAULT_EXCESS_HANDLER};
 
 #[cfg(feature = "std")]
 use crate::PaddedColumn;
-#[cfg(feature = "std")]
-use core::iter::FromIterator;
 
 macro_rules! single_fn {
     ($(#[$attributes:meta])* $name:ident = $direction:ident) => {
@@ -23,9 +21,8 @@ macro_rules! single_fn {
 macro_rules! multi_fn {
     ($(#[$attributes:meta])* $name:ident = $direction:ident) => {
         $(#[$attributes])*
-        pub fn $name<Container, ValueList>(values: ValueList) -> Container
+        pub fn $name<ValueList>(values: ValueList) -> impl Iterator<Item = PaddedItem<ValueList::Item>>
         where
-            Container: FromIterator<PaddedItem<ValueList::Item>>,
             ValueList: IntoIterator,
             ValueList::Item: Width,
         {
@@ -34,7 +31,7 @@ macro_rules! multi_fn {
                 pad_block: ' ',
                 pad_direction: PadDirection::$direction,
             }
-            .build()
+            .into_iter()
         }
     };
 }
@@ -101,8 +98,7 @@ multi_fn! {
     #[doc = r#"    "Rust", "C", "C++", "C#", "JavaScript","#]
     #[doc = r#"    "TypeScript", "Java", "Kotlin", "Go","#]
     #[doc = r#"];"#]
-    #[doc = "let padded_values: Vec<_> = pad_column_left(values);"]
-    #[doc = "let padded_values: Vec<_> = padded_values"]
+    #[doc = "let padded_values: Vec<_> = pad_column_left(values)"]
     #[doc = "    .into_iter()"]
     #[doc = "    .map(|x| x.to_string())"]
     #[doc = "    .collect();"]
@@ -128,8 +124,7 @@ multi_fn! {
     #[doc = r#"    "Rust", "C", "C++", "C#", "JavaScript","#]
     #[doc = r#"    "TypeScript", "Java", "Kotlin", "Go","#]
     #[doc = r#"];"#]
-    #[doc = "let padded_values: Vec<_> = pad_column_right(values);"]
-    #[doc = "let padded_values: Vec<_> = padded_values"]
+    #[doc = "let padded_values: Vec<_> = pad_column_right(values)"]
     #[doc = "    .into_iter()"]
     #[doc = "    .map(|x| x.to_string())"]
     #[doc = "    .collect();"]

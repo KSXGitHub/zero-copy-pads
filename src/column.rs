@@ -2,7 +2,7 @@
 
 use crate::{forbid_excess, ExcessHandler, PadDirection, PaddedItem, Width};
 use derive_builder::Builder;
-use std::{cmp::max, collections::LinkedList, fmt::Display, iter::FromIterator};
+use std::{cmp::max, collections::LinkedList, fmt::Display};
 
 /// Pad all values in a collection to be of same (maximum) width.
 #[derive(Debug, Clone, Copy, Builder)]
@@ -18,23 +18,6 @@ where
     pub pad_block: PadBlock,
     /// Where to place the pad.
     pub pad_direction: PadDirection,
-}
-
-impl<ValueList, PadBlock> PaddedColumn<ValueList, PadBlock>
-where
-    ValueList: IntoIterator,
-    ValueList::Item: Width,
-    PadBlock: Display + Copy,
-{
-    /// Create a collection of [`PaddedItem`].
-    pub fn build<Container>(self) -> Container
-    where
-        Container: FromIterator<
-            PaddedItem<ValueList::Item, PadBlock, ExcessHandler<ValueList::Item, PadBlock>>,
-        >,
-    {
-        self.into_iter().collect()
-    }
 }
 
 impl<ValueList, PadBlock> IntoIterator for PaddedColumn<ValueList, PadBlock>
