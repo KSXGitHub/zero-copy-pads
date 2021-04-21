@@ -1,4 +1,4 @@
-use crate::{PadDirection, PaddedItem, Width, DEFAULT_EXCESS_HANDLER};
+use crate::{ignore_excess, PadDirection, PaddedItem, Width};
 
 #[cfg(feature = "std")]
 use crate::PaddedColumn;
@@ -12,7 +12,7 @@ macro_rules! single_fn {
                 total_width,
                 pad_block: ' ',
                 pad_direction: PadDirection::$direction,
-                handle_excess: DEFAULT_EXCESS_HANDLER,
+                handle_excess: ignore_excess,
             }
         }
     };

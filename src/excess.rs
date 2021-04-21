@@ -47,8 +47,6 @@ where
     )
 }
 
-pub use ignore_excess as DEFAULT_EXCESS_HANDLER;
-
 /// Type of functions (not closures) that handles excess.
 pub type ExcessHandler<Value, PadBlock> =
     fn(excess: Excess<Value, PadBlock>, &mut Formatter<'_>) -> Result<(), Error>;
