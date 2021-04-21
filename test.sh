@@ -3,14 +3,14 @@ set -o errexit -o pipefail -o nounset
 
 if command -v pretty-exec >/dev/null; then
   run() {
-    echo
     pretty-exec -- "$@"
+    echo
   }
 else
   run() {
-    echo
     echo "$@"
     command "$@"
+    echo
   }
 fi
 
