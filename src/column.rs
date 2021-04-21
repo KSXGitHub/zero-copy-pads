@@ -18,7 +18,7 @@ use std::{cmp::max, collections::LinkedList, fmt::Display};
 /// let padded_column = PaddedColumn {
 ///     values: values.iter(),
 ///     pad_block: ' ',
-///     pad_direction: Alignment::Right,
+///     alignment: Alignment::Right,
 /// };
 /// let padded_values: Vec<_> = padded_column
 ///     .into_iter()
@@ -43,7 +43,7 @@ where
     /// Block of the pad (expected to have width of 1).
     pub pad_block: PadBlock,
     /// Where to place the pad.
-    pub pad_direction: Alignment,
+    pub alignment: Alignment,
 }
 
 impl<ValueIter, PadBlock> IntoIterator for PaddedColumn<ValueIter, PadBlock>
@@ -58,7 +58,7 @@ where
         let PaddedColumn {
             values,
             pad_block,
-            pad_direction,
+            alignment,
         } = self;
         let mut value_list = LinkedList::new();
         let mut total_width = 0;
@@ -69,7 +69,7 @@ where
         PaddedColumnIter {
             value_iter: value_list.into_iter(),
             pad_block,
-            pad_direction,
+            alignment,
             total_width,
         }
     }
@@ -84,7 +84,7 @@ where
 {
     value_iter: <LinkedList<Value> as IntoIterator>::IntoIter,
     pad_block: PadBlock,
-    pad_direction: Alignment,
+    alignment: Alignment,
     total_width: usize,
 }
 
@@ -99,13 +99,13 @@ where
         let PaddedColumnIter {
             value_iter,
             pad_block,
-            pad_direction,
+            alignment,
             total_width,
         } = self;
         value_iter.next().map(|value| PaddedValue {
             value,
             pad_block: *pad_block,
-            pad_direction: *pad_direction,
+            alignment: *alignment,
             total_width: *total_width,
             handle_excess: ForbidExcess,
         })

@@ -18,7 +18,7 @@ use derive_builder::Builder;
 ///     value: "abcdef",
 ///     pad_block: '-',
 ///     total_width: 9,
-///     pad_direction: Alignment::Right,
+///     alignment: Alignment::Right,
 ///     handle_excess: ForbidExcess,
 /// };
 /// assert_eq!(padded_value.to_string(), "---abcdef");
@@ -34,7 +34,7 @@ use derive_builder::Builder;
 ///     .value("abcdef")
 ///     .pad_block('-')
 ///     .total_width(9)
-///     .pad_direction(Alignment::Right)
+///     .alignment(Alignment::Right)
 ///     .handle_excess(ForbidExcess)
 ///     .build()
 ///     .unwrap();
@@ -60,7 +60,7 @@ pub struct PaddedValue<
     /// Total width to fulfill.
     pub total_width: usize,
     /// Where to place the pad.
-    pub pad_direction: Alignment,
+    pub alignment: Alignment,
     /// How to write when the actual width of `value` exceeds `total_width`.
     pub handle_excess: HandleExcess,
 }
@@ -76,7 +76,7 @@ where
             value,
             pad_block,
             total_width,
-            pad_direction,
+            alignment,
             handle_excess,
         } = self;
         let total_width = *total_width;
@@ -95,7 +95,7 @@ where
             );
         };
         let pad = fmt_iter::repeat(pad_block, pad_width);
-        match *pad_direction {
+        match *alignment {
             Alignment::Right => write!(formatter, "{}{}", pad, value),
             Alignment::Left => write!(formatter, "{}{}", value, pad),
         }

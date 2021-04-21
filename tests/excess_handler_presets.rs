@@ -8,7 +8,7 @@ macro_rules! create {
             value: $value,
             total_width: $total_width,
             pad_block: '-',
-            pad_direction: Alignment::Right,
+            alignment: Alignment::Right,
         }
         .to_string()
     };

@@ -9,7 +9,7 @@ pub enum Alignment {
     /// # use pretty_assertions::assert_eq;
     /// use padded_column::{Alignment::Left, PaddedValue, ForbidExcess};
     /// let padded_value = PaddedValue {
-    ///     pad_direction: Left,
+    ///     alignment: Left,
     ///     value: "abcdef",
     ///     pad_block: '-',
     ///     total_width: 9,
@@ -27,7 +27,7 @@ pub enum Alignment {
     /// # use pretty_assertions::assert_eq;
     /// use padded_column::{Alignment::Right, PaddedValue, ForbidExcess};
     /// let padded_value = PaddedValue {
-    ///     pad_direction: Right,
+    ///     alignment: Right,
     ///     value: "abcdef",
     ///     pad_block: '-',
     ///     total_width: 9,

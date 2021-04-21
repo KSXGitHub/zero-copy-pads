@@ -4,7 +4,7 @@ use crate::{Alignment, IgnoreExcess, PaddedValue, Width};
 use crate::{ForbidExcess, PaddedColumn};
 
 macro_rules! single_fn {
-    ($(#[$attributes:meta])* $name:ident = $direction:ident) => {
+    ($(#[$attributes:meta])* $name:ident = $alignment:ident) => {
         $(#[$attributes])*
         pub fn $name<Value: Width>(
             value: Value,
@@ -14,7 +14,7 @@ macro_rules! single_fn {
                 value,
                 total_width,
                 pad_block: ' ',
-                pad_direction: Alignment::$direction,
+                alignment: Alignment::$alignment,
                 handle_excess: IgnoreExcess,
             }
         }
@@ -22,7 +22,7 @@ macro_rules! single_fn {
 }
 
 macro_rules! multi_fn {
-    ($(#[$attributes:meta])* $name:ident = $direction:ident) => {
+    ($(#[$attributes:meta])* $name:ident = $alignment:ident) => {
         $(#[$attributes])*
         #[cfg(feature = "std")]
         pub fn $name<ValueList>(
@@ -35,7 +35,7 @@ macro_rules! multi_fn {
             PaddedColumn {
                 values,
                 pad_block: ' ',
-                pad_direction: Alignment::$direction,
+                alignment: Alignment::$alignment,
             }
             .into_iter()
         }
