@@ -40,7 +40,7 @@ type ExcessHandlingFunctionInner<Value, PadBlock> =
 
 /// Turn a function (without closure) into a [`ExcessHandler`].
 #[derive(Clone, Copy, AsMut, AsRef, Deref, DerefMut, From)]
-pub struct ExcessHandlingFunction<Value, PadBlock>(
+pub struct ExcessHandlingFunction<Value, PadBlock = char>(
     pub ExcessHandlingFunctionInner<Value, PadBlock>,
 )
 where
