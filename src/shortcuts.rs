@@ -29,7 +29,7 @@ macro_rules! multi_fn {
             values: ValueList
         ) -> impl Iterator<Item = PaddedItem<ValueList::Item, char, ForbidExcess>>
         where
-            ValueList: IntoIterator,
+            ValueList: Iterator,
             ValueList::Item: Width,
         {
             PaddedColumn {
@@ -103,7 +103,7 @@ multi_fn! {
     #[doc = r#"    "Rust", "C", "C++", "C#", "JavaScript","#]
     #[doc = r#"    "TypeScript", "Java", "Kotlin", "Go","#]
     #[doc = r#"];"#]
-    #[doc = "let padded_values: Vec<_> = pad_column_left(values)"]
+    #[doc = "let padded_values: Vec<_> = pad_column_left(values.iter())"]
     #[doc = "    .into_iter()"]
     #[doc = "    .map(|x| x.to_string())"]
     #[doc = "    .collect();"]
@@ -128,7 +128,7 @@ multi_fn! {
     #[doc = r#"    "Rust", "C", "C++", "C#", "JavaScript","#]
     #[doc = r#"    "TypeScript", "Java", "Kotlin", "Go","#]
     #[doc = r#"];"#]
-    #[doc = "let padded_values: Vec<_> = pad_column_right(values)"]
+    #[doc = "let padded_values: Vec<_> = pad_column_right(values.iter())"]
     #[doc = "    .into_iter()"]
     #[doc = "    .map(|x| x.to_string())"]
     #[doc = "    .collect();"]

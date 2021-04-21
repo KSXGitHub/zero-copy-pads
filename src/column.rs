@@ -16,7 +16,7 @@ use std::{cmp::max, collections::LinkedList, fmt::Display};
 ///     "TypeScript", "Java", "Kotlin", "Go",
 /// ];
 /// let padded_column = PaddedColumn {
-///     values,
+///     values: values.iter(),
 ///     pad_block: ' ',
 ///     pad_direction: PadDirection::Left,
 /// };
@@ -34,7 +34,7 @@ use std::{cmp::max, collections::LinkedList, fmt::Display};
 #[derive(Debug, Clone, Copy, Builder)]
 pub struct PaddedColumn<ValueList, PadBlock = char>
 where
-    ValueList: IntoIterator,
+    ValueList: Iterator,
     ValueList::Item: Width,
     PadBlock: Display + Copy,
 {
@@ -48,7 +48,7 @@ where
 
 impl<ValueList, PadBlock> IntoIterator for PaddedColumn<ValueList, PadBlock>
 where
-    ValueList: IntoIterator,
+    ValueList: Iterator,
     ValueList::Item: Width,
     PadBlock: Display + Copy,
 {
