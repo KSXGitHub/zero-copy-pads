@@ -5,6 +5,32 @@ use derive_builder::Builder;
 use std::{cmp::max, collections::LinkedList, fmt::Display};
 
 /// Pad all values in a collection to be of same (maximum) width.
+///
+/// **Example:**
+///
+/// ```
+/// # use pretty_assertions::assert_eq;
+/// use padded_column::{PaddedColumn, PadDirection};
+/// let values = vec![
+///     "Rust", "C", "C++", "C#", "JavaScript",
+///     "TypeScript", "Java", "Kotlin", "Go",
+/// ];
+/// let padded_column = PaddedColumn {
+///     values,
+///     pad_block: ' ',
+///     pad_direction: PadDirection::Left,
+/// };
+/// let padded_values: Vec<_> = padded_column
+///     .into_iter()
+///     .map(|x| x.to_string())
+///     .collect();
+/// let expected = [
+///     "      Rust", "         C", "       C++",
+///     "        C#", "JavaScript", "TypeScript",
+///     "      Java", "    Kotlin", "        Go",
+/// ];
+/// assert_eq!(padded_values, expected);
+/// ```
 #[derive(Debug, Clone, Copy, Builder)]
 pub struct PaddedColumn<ValueList, PadBlock = char>
 where
