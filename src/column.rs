@@ -32,28 +32,28 @@ use std::{cmp::max, collections::LinkedList, fmt::Display};
 /// assert_eq!(padded_values, expected);
 /// ```
 #[derive(Debug, Clone, Copy, Builder)]
-pub struct PaddedColumn<ValueList, PadBlock = char>
+pub struct PaddedColumn<ValueIter, PadBlock = char>
 where
-    ValueList: Iterator,
-    ValueList::Item: Width,
+    ValueIter: Iterator,
+    ValueIter::Item: Width,
     PadBlock: Display + Copy,
 {
     /// Values to be padded.
-    pub values: ValueList,
+    pub values: ValueIter,
     /// Block of the pad (expected to have width of 1).
     pub pad_block: PadBlock,
     /// Where to place the pad.
     pub pad_direction: PadDirection,
 }
 
-impl<ValueList, PadBlock> IntoIterator for PaddedColumn<ValueList, PadBlock>
+impl<ValueIter, PadBlock> IntoIterator for PaddedColumn<ValueIter, PadBlock>
 where
-    ValueList: Iterator,
-    ValueList::Item: Width,
+    ValueIter: Iterator,
+    ValueIter::Item: Width,
     PadBlock: Display + Copy,
 {
-    type Item = PaddedItem<ValueList::Item, PadBlock, ForbidExcess>;
-    type IntoIter = PaddedColumnIter<ValueList::Item, PadBlock>;
+    type Item = PaddedItem<ValueIter::Item, PadBlock, ForbidExcess>;
+    type IntoIter = PaddedColumnIter<ValueIter::Item, PadBlock>;
     fn into_iter(self) -> Self::IntoIter {
         let PaddedColumn {
             values,
