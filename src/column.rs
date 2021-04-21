@@ -75,7 +75,7 @@ where
     }
 }
 
-/// Iterator of [`PaddedColumn`].
+/// Iterator created by calling [`into_iter`](IntoIterator::into_iter) on [`PaddedColumn`].
 #[derive(Debug, Clone)]
 pub struct PaddedColumnIter<Value, PadBlock = char>
 where
