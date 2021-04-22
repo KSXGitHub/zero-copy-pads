@@ -43,6 +43,7 @@ pub enum Alignment {
     /// **Example:**
     ///
     /// ```
+    /// # #[cfg(feature = "std")] fn main() {
     /// # use pretty_assertions::assert_eq;
     /// use padded_column::{Alignment::CenterLeft, PaddedColumn, PanicOnExcess};
     /// let values = [
@@ -64,6 +65,8 @@ pub enum Alignment {
     ///     "---Java---", "--Kotlin--", "----Go----",
     /// ];
     /// assert_eq!(padded_values, expected);
+    /// # }
+    /// # #[cfg(not(feature = "std"))] fn main() {}
     /// ```
     CenterLeft,
 
@@ -73,6 +76,7 @@ pub enum Alignment {
     /// **Example:**
     ///
     /// ```
+    /// # #[cfg(feature = "std")] fn main() {
     /// # use pretty_assertions::assert_eq;
     /// use padded_column::{Alignment::CenterRight, PaddedColumn, PanicOnExcess};
     /// let values = [
@@ -94,7 +98,8 @@ pub enum Alignment {
     ///     "---Java---", "--Kotlin--", "----Go----",
     /// ];
     /// assert_eq!(padded_values, expected);
-    /// ```
+    /// # }
+    /// # #[cfg(not(feature = "std"))] fn main() {}
     /// ```
     CenterRight,
 }
