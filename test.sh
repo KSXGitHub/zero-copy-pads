@@ -16,6 +16,7 @@ fi
 
 test() {
   run cargo clippy "$@" -- -D warnings
+  run cargo build "$@"
   run cargo test "$@"
 }
 
