@@ -1,7 +1,7 @@
 [package]
 name = "zero-copy-pads"
 description = "Padding/aligning values without heap allocation"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["khai96_ <hvksmr1996@gmail.com>"]
 edition = "2018"
 readme = "README.md"
