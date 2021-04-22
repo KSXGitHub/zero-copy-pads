@@ -1,8 +1,30 @@
 [package]
 name = "zero-copy-pads"
+description = "Padding/aligning values without heap allocation"
 version = "0.0.0"
 authors = ["khai96_ <hvksmr1996@gmail.com>"]
 edition = "2018"
+readme = "README.md"
+license = "MIT"
+documentation = "https://docs.rs/zero-copy-pads"
+repository = "https://github.com/KSXGitHub/zero-copy-pads"
+categories = [
+  "algorithms",
+  "no-std",
+]
+keywords = [
+  "zero-copy",
+  "padding",
+  "alignment",
+  "column",
+  "string",
+]
+include = [
+  "/src",
+  "/Cargo.toml",
+  "/README.md",
+  "/LICENSE.md",
+]
 
 [features]
 default = ["std"]
