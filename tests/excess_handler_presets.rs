@@ -15,13 +15,13 @@ macro_rules! create {
 }
 
 #[test]
-fn forbid_excess_without_excess() {
+fn panic_on_excess_without_excess() {
     assert_eq!(create!(PanicOnExcess, "abcdef", 9), "---abcdef");
 }
 
 #[test]
 #[should_panic(expected = "value's width (9) is greater than total_width (6)")]
-fn forbid_excess_with_excess() {
+fn panic_on_excess_with_excess() {
     create!(PanicOnExcess, "abcdefghi", 6);
 }
 
