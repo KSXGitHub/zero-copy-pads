@@ -35,6 +35,22 @@ where
     }
 }
 
+/// Pad to the right, content to the left.
+///
+/// **Example:**
+///
+/// ```
+/// # use pretty_assertions::assert_eq;
+/// use padded_column::{AlignLeft, PaddedValue, PanicOnExcess};
+/// let padded_value = PaddedValue {
+///     pad: AlignLeft,
+///     value: "abcdef",
+///     pad_block: '-',
+///     total_width: 9,
+///     handle_excess: PanicOnExcess,
+/// };
+/// assert_eq!(padded_value.to_string(), "abcdef---");
+/// ```
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct AlignLeft;
 
@@ -51,6 +67,22 @@ impl<Value: Width, PadBlock: Display> Pad<Value, PadBlock> for AlignLeft {
     }
 }
 
+/// Pad to the left, content to the right.
+///
+/// **Example:**
+///
+/// ```
+/// # use pretty_assertions::assert_eq;
+/// use padded_column::{AlignRight, PaddedValue, PanicOnExcess};
+/// let padded_value = PaddedValue {
+///     pad: AlignRight,
+///     value: "abcdef",
+///     pad_block: '-',
+///     total_width: 9,
+///     handle_excess: PanicOnExcess,
+/// };
+/// assert_eq!(padded_value.to_string(), "---abcdef");
+/// ```
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct AlignRight;
 
@@ -67,6 +99,37 @@ impl<Value: Width, PadBlock: Display> Pad<Value, PadBlock> for AlignRight {
     }
 }
 
+/// Pad to both sides, place content in the middle, but shift to the left one
+/// block if it can't be exactly central.
+///
+/// **Example:**
+///
+/// ```
+/// # #[cfg(feature = "std")] fn main() {
+/// # use pretty_assertions::assert_eq;
+/// use padded_column::{AlignCenterLeft, PaddedColumn, PanicOnExcess};
+/// let values = [
+///     "Rust", "C", "C++", "C#", "JavaScript",
+///     "TypeScript", "Java", "Kotlin", "Go",
+/// ];
+/// let padded_column = PaddedColumn {
+///     pad: AlignCenterLeft,
+///     values: values.iter(),
+///     pad_block: '-',
+/// };
+/// let padded_values: Vec<_> = padded_column
+///     .into_iter()
+///     .map(|x| x.to_string())
+///     .collect();
+/// let expected = [
+///     "---Rust---", "----C-----", "---C++----",
+///     "----C#----", "JavaScript", "TypeScript",
+///     "---Java---", "--Kotlin--", "----Go----",
+/// ];
+/// assert_eq!(padded_values, expected);
+/// # }
+/// # #[cfg(not(feature = "std"))] fn main() {}
+/// ```
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct AlignCenterLeft;
 
@@ -87,6 +150,37 @@ impl<Value: Width, PadBlock: Display> Pad<Value, PadBlock> for AlignCenterLeft {
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct AlignCenterRight;
 
+/// Pad to both sides, place content in the middle, but shift to the right one
+/// block if it can't be exactly central.
+///
+/// **Example:**
+///
+/// ```
+/// # #[cfg(feature = "std")] fn main() {
+/// # use pretty_assertions::assert_eq;
+/// use padded_column::{AlignCenterRight, PaddedColumn, PanicOnExcess};
+/// let values = [
+///     "Rust", "C", "C++", "C#", "JavaScript",
+///     "TypeScript", "Java", "Kotlin", "Go",
+/// ];
+/// let padded_column = PaddedColumn {
+///     pad: AlignCenterRight,
+///     values: values.iter(),
+///     pad_block: '-',
+/// };
+/// let padded_values: Vec<_> = padded_column
+///     .into_iter()
+///     .map(|x| x.to_string())
+///     .collect();
+/// let expected = [
+///     "---Rust---", "-----C----", "----C++---",
+///     "----C#----", "JavaScript", "TypeScript",
+///     "---Java---", "--Kotlin--", "----Go----",
+/// ];
+/// assert_eq!(padded_values, expected);
+/// # }
+/// # #[cfg(not(feature = "std"))] fn main() {}
+/// ```
 impl<Value: Width, PadBlock: Display> Pad<Value, PadBlock> for AlignCenterRight {
     fn pad(
         &self,
