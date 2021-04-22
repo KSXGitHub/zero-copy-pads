@@ -115,7 +115,7 @@ macro_rules! preset {
         fn $fn_name:ident;
     ) => {
         $(#[$struct_attr])*
-        #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+        #[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
         pub struct $struct_name;
 
         impl<Value, PadBlock> ExcessHandler<Value, PadBlock> for $struct_name

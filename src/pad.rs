@@ -51,7 +51,7 @@ where
 /// };
 /// assert_eq!(padded_value.to_string(), "abcdef---");
 /// ```
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
 pub struct AlignLeft;
 
 impl<Value: Width, PadBlock: Display> Pad<Value, PadBlock> for AlignLeft {
@@ -83,7 +83,7 @@ impl<Value: Width, PadBlock: Display> Pad<Value, PadBlock> for AlignLeft {
 /// };
 /// assert_eq!(padded_value.to_string(), "---abcdef");
 /// ```
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
 pub struct AlignRight;
 
 impl<Value: Width, PadBlock: Display> Pad<Value, PadBlock> for AlignRight {
@@ -130,7 +130,7 @@ impl<Value: Width, PadBlock: Display> Pad<Value, PadBlock> for AlignRight {
 /// # }
 /// # #[cfg(not(feature = "std"))] fn main() {}
 /// ```
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
 pub struct AlignCenterLeft;
 
 impl<Value: Width, PadBlock: Display> Pad<Value, PadBlock> for AlignCenterLeft {
@@ -178,7 +178,7 @@ impl<Value: Width, PadBlock: Display> Pad<Value, PadBlock> for AlignCenterLeft {
 /// # }
 /// # #[cfg(not(feature = "std"))] fn main() {}
 /// ```
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
 pub struct AlignCenterRight;
 
 impl<Value: Width, PadBlock: Display> Pad<Value, PadBlock> for AlignCenterRight {
