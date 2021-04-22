@@ -201,7 +201,7 @@ preset! {
 preset! {
     impl |_, _| Err(Error);
 
-    #[doc = "Forbid all excesses, panic once encounter one."]
+    #[doc = "Forbid all excesses, raise `fmt::Error` once encounter one."]
     #[doc = ""]
     #[doc = "**When `value.width()` is not greater than `total_width`,"]
     #[doc = "add pads as usual:**"]
