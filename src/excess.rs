@@ -199,6 +199,52 @@ preset! {
 }
 
 preset! {
+    impl |_, _| Err(Error);
+
+    #[doc = "Forbid all excesses, panic once encounter one."]
+    #[doc = ""]
+    #[doc = "**When `value.width()` is not greater than `total_width`,"]
+    #[doc = "add pads as usual:**"]
+    #[doc = "```"]
+    #[doc = "# use pretty_assertions::assert_eq;"]
+    #[doc = "use padded_column::{PaddedValue, Alignment, ErrorOnExcess};"]
+    #[doc = "let padded_value = PaddedValue {"]
+    #[doc = r#"    handle_excess: ErrorOnExcess,"#]
+    #[doc = r#"    value: "abcdef","#]
+    #[doc = r#"    pad_block: '-',"#]
+    #[doc = r#"    total_width: 9,"#]
+    #[doc = r#"    alignment: Alignment::Right,"#]
+    #[doc = "};"]
+    #[doc = r#"assert_eq!(padded_value.to_string(), "---abcdef");"#]
+    #[doc = "```"]
+    #[doc = ""]
+    #[doc = "**When `value.width()` is greater than `total_width`,"]
+    #[doc = "return an [`Err`] of [`fmt::Error`](Error):**"]
+    #[doc = "```"]
+    #[doc = "# use pretty_assertions::assert_eq;"]
+    #[doc = "use padded_column::{PaddedValue, Alignment, ErrorOnExcess};"]
+    #[doc = "let padded_value = PaddedValue {"]
+    #[doc = r#"    handle_excess: ErrorOnExcess,"#]
+    #[doc = r#"    value: "abcdefghijkl","#]
+    #[doc = r#"    pad_block: '-',"#]
+    #[doc = r#"    total_width: 9,"#]
+    #[doc = r#"    alignment: Alignment::Right,"#]
+    #[doc = "};"]
+    #[doc = "let mut output = String::new();"]
+    #[doc = r#"std::fmt::write("#]
+    #[doc = r#"    &mut output,"#]
+    #[doc = r#"    format_args!("{}", padded_value),"#]
+    #[doc = r#").unwrap_err();"#]
+    #[doc = "```"]
+    struct ErrorOnExcess;
+
+    #[doc = "Create a [`ExcessHandlingFunction`] that forbids excesses."]
+    #[doc = ""]
+    #[doc = "see [`ErrorOnExcess`]."]
+    fn error_on_excess;
+}
+
+preset! {
     impl |excess, _| panic!(
         "value's width ({}) is greater than total_width ({})",
         excess.value_width, excess.total_width,
