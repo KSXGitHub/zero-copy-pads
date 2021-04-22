@@ -1,4 +1,4 @@
-use crate::Width;
+use crate::{Unit, Width};
 use core::fmt::{Display, Error, Formatter};
 use derive_more::{AsMut, AsRef, Deref, DerefMut, From};
 
@@ -106,6 +106,14 @@ where
     }
 }
 
+/// All pre-defined zero-sized [`ExcessHandler`] types in this [crate] implement this trait.
+pub trait UnitExcessHandler<Value, PadBlock = char>: Unit + ExcessHandler<Value, PadBlock>
+where
+    Value: Width,
+    PadBlock: Display,
+{
+}
+
 macro_rules! preset {
     (
         impl $implementation:expr;
@@ -117,6 +125,12 @@ macro_rules! preset {
         $(#[$struct_attr])*
         #[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
         pub struct $struct_name;
+
+        impl Unit for $struct_name {
+            const VALUE: Self = $struct_name;
+        }
+
+        impl<Value: Width, PadBlock: Display> UnitExcessHandler<Value, PadBlock> for $struct_name {}
 
         impl<Value, PadBlock> ExcessHandler<Value, PadBlock> for $struct_name
         where

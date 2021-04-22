@@ -1,4 +1,4 @@
-use crate::Width;
+use crate::{Unit, Width};
 use core::fmt::{Display, Error, Formatter};
 use fmt_iter::repeat;
 
@@ -35,6 +35,19 @@ where
     }
 }
 
+/// All pre-defined zero-sized [`Pad`] types in this [crate] implement this trait.
+pub trait UnitPad<Value: Width, PadBlock: Display>: Unit + Pad<Value, PadBlock> {}
+
+macro_rules! unit_pad {
+    ($name:ident) => {
+        impl Unit for $name {
+            const VALUE: Self = $name;
+        }
+
+        impl<Value: Width, PadBlock: Display> UnitPad<Value, PadBlock> for $name {}
+    };
+}
+
 /// Pad to the right, content to the left.
 ///
 /// **Example:**
@@ -53,6 +66,7 @@ where
 /// ```
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
 pub struct AlignLeft;
+unit_pad!(AlignLeft);
 
 impl<Value: Width, PadBlock: Display> Pad<Value, PadBlock> for AlignLeft {
     fn fmt(
@@ -85,6 +99,7 @@ impl<Value: Width, PadBlock: Display> Pad<Value, PadBlock> for AlignLeft {
 /// ```
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
 pub struct AlignRight;
+unit_pad!(AlignRight);
 
 impl<Value: Width, PadBlock: Display> Pad<Value, PadBlock> for AlignRight {
     fn fmt(
@@ -132,6 +147,7 @@ impl<Value: Width, PadBlock: Display> Pad<Value, PadBlock> for AlignRight {
 /// ```
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
 pub struct AlignCenterLeft;
+unit_pad!(AlignCenterLeft);
 
 impl<Value: Width, PadBlock: Display> Pad<Value, PadBlock> for AlignCenterLeft {
     fn fmt(
@@ -180,6 +196,7 @@ impl<Value: Width, PadBlock: Display> Pad<Value, PadBlock> for AlignCenterLeft {
 /// ```
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
 pub struct AlignCenterRight;
+unit_pad!(AlignCenterRight);
 
 impl<Value: Width, PadBlock: Display> Pad<Value, PadBlock> for AlignCenterRight {
     fn fmt(
