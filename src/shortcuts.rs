@@ -1,4 +1,6 @@
-use crate::{AlignLeft, AlignRight, IgnoreExcess, PaddedValue, Width};
+use crate::{
+    AlignCenterLeft, AlignCenterRight, AlignLeft, AlignRight, IgnoreExcess, PaddedValue, Width,
+};
 
 #[cfg(feature = "std")]
 use crate::{PaddedColumn, PanicOnExcess};
@@ -94,6 +96,82 @@ single_fn! {
     align_right = AlignRight
 }
 
+single_fn! {
+    #[doc = "Pad space characters both side of a value with the remainder"]
+    #[doc = "block (if any) in the right."]
+    #[doc = ""]
+    #[doc = "**When `value.width()` is not greater than `total_width`"]
+    #[doc = "and `total_width - value.width()` is an even number,"]
+    #[doc = "center the value in a space of `total_width`:**"]
+    #[doc = "```"]
+    #[doc = "# use zero_copy_pads::align_center_left;"]
+    #[doc = "# use pretty_assertions::assert_eq;"]
+    #[doc = r#"let value = "abc";"#]
+    #[doc = "let padded_value = align_center_left(value, 7);"]
+    #[doc = r#"assert_eq!(padded_value.to_string(), "  abc  ");"#]
+    #[doc = "```"]
+    #[doc = ""]
+    #[doc = "**When `value.width()` is not greater than `total_width`"]
+    #[doc = "and `total_width - value.width()` is an odd number"]
+    #[doc = "center the value in a space of `total_width` but with"]
+    #[doc = "1 remainder block to the right:**"]
+    #[doc = "```"]
+    #[doc = "# use zero_copy_pads::align_center_left;"]
+    #[doc = "# use pretty_assertions::assert_eq;"]
+    #[doc = r#"let value = "abc";"#]
+    #[doc = "let padded_value = align_center_left(value, 8);"]
+    #[doc = r#"assert_eq!(padded_value.to_string(), "  abc   ");"#]
+    #[doc = "```"]
+    #[doc = ""]
+    #[doc = "**When `value.width()` is greater than `total_width`,"]
+    #[doc = "display `value` as is:**"]
+    #[doc = "```"]
+    #[doc = "# use zero_copy_pads::align_center_left;"]
+    #[doc = r#"let value = "abcdefghi";"#]
+    #[doc = "let padded_value = align_center_left(value, 5);"]
+    #[doc = "assert_eq!(padded_value.to_string(), value);"]
+    #[doc = "```"]
+    align_center_left = AlignCenterLeft
+}
+
+single_fn! {
+    #[doc = "Pad space characters both side of a value with the remainder"]
+    #[doc = "block (if any) in the left."]
+    #[doc = ""]
+    #[doc = "**When `value.width()` is not greater than `total_width`"]
+    #[doc = "and `total_width - value.width()` is an even number,"]
+    #[doc = "center the value in a space of `total_width`:**"]
+    #[doc = "```"]
+    #[doc = "# use zero_copy_pads::align_center_right;"]
+    #[doc = "# use pretty_assertions::assert_eq;"]
+    #[doc = r#"let value = "abc";"#]
+    #[doc = "let padded_value = align_center_right(value, 7);"]
+    #[doc = r#"assert_eq!(padded_value.to_string(), "  abc  ");"#]
+    #[doc = "```"]
+    #[doc = ""]
+    #[doc = "**When `value.width()` is not greater than `total_width`"]
+    #[doc = "and `total_width - value.width()` is an odd number"]
+    #[doc = "center the value in a space of `total_width` but with"]
+    #[doc = "1 remainder block to the left:**"]
+    #[doc = "```"]
+    #[doc = "# use zero_copy_pads::align_center_right;"]
+    #[doc = "# use pretty_assertions::assert_eq;"]
+    #[doc = r#"let value = "abc";"#]
+    #[doc = "let padded_value = align_center_right(value, 8);"]
+    #[doc = r#"assert_eq!(padded_value.to_string(), "   abc  ");"#]
+    #[doc = "```"]
+    #[doc = ""]
+    #[doc = "**When `value.width()` is greater than `total_width`,"]
+    #[doc = "display `value` as is:**"]
+    #[doc = "```"]
+    #[doc = "# use zero_copy_pads::align_center_right;"]
+    #[doc = r#"let value = "abcdefghi";"#]
+    #[doc = "let padded_value = align_center_right(value, 5);"]
+    #[doc = "assert_eq!(padded_value.to_string(), value);"]
+    #[doc = "```"]
+    align_center_right = AlignCenterRight
+}
+
 multi_fn! {
     #[doc = "Pad space characters to the right of every value so that they all share the same width."]
     #[doc = ""]
@@ -142,4 +220,56 @@ multi_fn! {
     #[doc = "assert_eq!(padded_values, expected);"]
     #[doc = "```"]
     align_column_right = AlignRight
+}
+
+multi_fn! {
+    #[doc = "Pad space characters to both sides of every value so that they all share the same width."]
+    #[doc = "The remainder blocks will be placed at the right."]
+    #[doc = ""]
+    #[doc = "**Example:**"]
+    #[doc = "```"]
+    #[doc = "# use zero_copy_pads::align_column_center_left;"]
+    #[doc = "# use pretty_assertions::assert_eq;"]
+    #[doc = r#"let values = vec!["#]
+    #[doc = r#"    "Rust", "C", "C++", "C#", "JavaScript","#]
+    #[doc = r#"    "TypeScript", "Java", "Kotlin", "Go","#]
+    #[doc = r#"];"#]
+    #[doc = "let padded_values: Vec<_> = align_column_center_left(values.iter())"]
+    #[doc = "    .into_iter()"]
+    #[doc = "    .map(|x| x.to_string())"]
+    #[doc = "    .collect();"]
+    #[doc = r#"let expected = ["#]
+    #[doc = r#"    "   Rust   ", "    C     ", "   C++    ","#]
+    #[doc = r#"    "    C#    ", "JavaScript", "TypeScript","#]
+    #[doc = r#"    "   Java   ", "  Kotlin  ", "    Go    ","#]
+    #[doc = r#"];"#]
+    #[doc = "assert_eq!(padded_values, expected);"]
+    #[doc = "```"]
+    align_column_center_left = AlignCenterLeft
+}
+
+multi_fn! {
+    #[doc = "Pad space characters to both sides of every value so that they all share the same width."]
+    #[doc = "The remainder blocks will be placed at the left."]
+    #[doc = ""]
+    #[doc = "**Example:**"]
+    #[doc = "```"]
+    #[doc = "# use zero_copy_pads::align_column_center_right;"]
+    #[doc = "# use pretty_assertions::assert_eq;"]
+    #[doc = r#"let values = vec!["#]
+    #[doc = r#"    "Rust", "C", "C++", "C#", "JavaScript","#]
+    #[doc = r#"    "TypeScript", "Java", "Kotlin", "Go","#]
+    #[doc = r#"];"#]
+    #[doc = "let padded_values: Vec<_> = align_column_center_right(values.iter())"]
+    #[doc = "    .into_iter()"]
+    #[doc = "    .map(|x| x.to_string())"]
+    #[doc = "    .collect();"]
+    #[doc = r#"let expected = ["#]
+    #[doc = r#"    "   Rust   ", "     C    ", "    C++   ","#]
+    #[doc = r#"    "    C#    ", "JavaScript", "TypeScript","#]
+    #[doc = r#"    "   Java   ", "  Kotlin  ", "    Go    ","#]
+    #[doc = r#"];"#]
+    #[doc = "assert_eq!(padded_values, expected);"]
+    #[doc = "```"]
+    align_column_center_right = AlignCenterRight
 }
