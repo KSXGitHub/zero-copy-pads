@@ -234,6 +234,7 @@ dependencies = [
  "derive_builder",
  "derive_more",
  "fmt-iter",
+ "pipe-trait",
  "pretty_assertions",
  "unicode-width",
 ]
