@@ -10,7 +10,7 @@ use std::{cmp::max, collections::LinkedList, fmt::Display};
 ///
 /// ```
 /// # use pretty_assertions::assert_eq;
-/// use padded_column::{PaddedColumn, Alignment};
+/// use padded_column::{PaddedColumn, AlignRight};
 /// let values = vec![
 ///     "Rust", "C", "C++", "C#", "JavaScript",
 ///     "TypeScript", "Java", "Kotlin", "Go",
@@ -18,7 +18,7 @@ use std::{cmp::max, collections::LinkedList, fmt::Display};
 /// let padded_column = PaddedColumn {
 ///     values: values.iter(),
 ///     pad_block: ' ',
-///     pad: Alignment::Right,
+///     pad: AlignRight,
 /// };
 /// let padded_values: Vec<_> = padded_column
 ///     .into_iter()
