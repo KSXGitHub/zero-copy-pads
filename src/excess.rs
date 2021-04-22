@@ -210,9 +210,9 @@ preset! {
     #[doc = "add pads as usual:**"]
     #[doc = "```"]
     #[doc = "# use pretty_assertions::assert_eq;"]
-    #[doc = "use padded_column::{PaddedValue, Alignment, ForbidExcess};"]
+    #[doc = "use padded_column::{PaddedValue, Alignment, PanicOnExcess};"]
     #[doc = "let padded_value = PaddedValue {"]
-    #[doc = r#"    handle_excess: ForbidExcess,"#]
+    #[doc = r#"    handle_excess: PanicOnExcess,"#]
     #[doc = r#"    value: "abcdef","#]
     #[doc = r#"    pad_block: '-',"#]
     #[doc = r#"    total_width: 9,"#]
@@ -224,9 +224,9 @@ preset! {
     #[doc = "**When `value.width()` is greater than `total_width`, panic:**"]
     #[doc = "```should_panic"]
     #[doc = "# use pretty_assertions::assert_eq;"]
-    #[doc = "use padded_column::{PaddedValue, Alignment, ForbidExcess};"]
+    #[doc = "use padded_column::{PaddedValue, Alignment, PanicOnExcess};"]
     #[doc = "let padded_value = PaddedValue {"]
-    #[doc = r#"    handle_excess: ForbidExcess,"#]
+    #[doc = r#"    handle_excess: PanicOnExcess,"#]
     #[doc = r#"    value: "abcdefghijkl","#]
     #[doc = r#"    pad_block: '-',"#]
     #[doc = r#"    total_width: 9,"#]
@@ -234,10 +234,10 @@ preset! {
     #[doc = "};"]
     #[doc = r#"assert_eq!(padded_value.to_string(), "abcdefghijkl");"#]
     #[doc = "```"]
-    struct ForbidExcess;
+    struct PanicOnExcess;
 
     #[doc = "Create a [`ExcessHandlingFunction`] that forbids excesses."]
     #[doc = ""]
-    #[doc = "see [`ForbidExcess`]."]
-    fn forbid_excess;
+    #[doc = "see [`PanicOnExcess`]."]
+    fn panic_on_excess;
 }

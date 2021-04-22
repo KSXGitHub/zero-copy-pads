@@ -1,6 +1,6 @@
 #![cfg(feature = "std")]
 
-use crate::{Alignment, ForbidExcess, PaddedValue, Width};
+use crate::{Alignment, PaddedValue, PanicOnExcess, Width};
 use derive_builder::Builder;
 use std::{cmp::max, collections::LinkedList, fmt::Display};
 
@@ -52,7 +52,7 @@ where
     ValueIter::Item: Width,
     PadBlock: Display + Copy,
 {
-    type Item = PaddedValue<ValueIter::Item, PadBlock, ForbidExcess>;
+    type Item = PaddedValue<ValueIter::Item, PadBlock, PanicOnExcess>;
     type IntoIter = PaddedColumnIter<ValueIter::Item, PadBlock>;
     fn into_iter(self) -> Self::IntoIter {
         let PaddedColumn {
@@ -93,7 +93,7 @@ where
     Value: Width,
     PadBlock: Display + Copy,
 {
-    type Item = PaddedValue<Value, PadBlock, ForbidExcess>;
+    type Item = PaddedValue<Value, PadBlock, PanicOnExcess>;
 
     fn next(&mut self) -> Option<Self::Item> {
         let PaddedColumnIter {
@@ -107,7 +107,7 @@ where
             pad_block: *pad_block,
             alignment: *alignment,
             total_width: *total_width,
-            handle_excess: ForbidExcess,
+            handle_excess: PanicOnExcess,
         })
     }
 }

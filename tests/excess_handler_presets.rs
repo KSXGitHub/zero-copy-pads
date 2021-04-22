@@ -1,4 +1,4 @@
-use padded_column::{Alignment, ForbidExcess, IgnoreExcess, PaddedValue};
+use padded_column::{Alignment, IgnoreExcess, PaddedValue, PanicOnExcess};
 use pretty_assertions::assert_eq;
 
 macro_rules! create {
@@ -16,13 +16,13 @@ macro_rules! create {
 
 #[test]
 fn forbid_excess_without_excess() {
-    assert_eq!(create!(ForbidExcess, "abcdef", 9), "---abcdef");
+    assert_eq!(create!(PanicOnExcess, "abcdef", 9), "---abcdef");
 }
 
 #[test]
 #[should_panic(expected = "value's width (9) is greater than total_width (6)")]
 fn forbid_excess_with_excess() {
-    create!(ForbidExcess, "abcdefghi", 6);
+    create!(PanicOnExcess, "abcdefghi", 6);
 }
 
 #[test]

@@ -13,13 +13,13 @@ use derive_builder::Builder;
 ///
 /// ```
 /// # use pretty_assertions::assert_eq;
-/// use padded_column::{PaddedValue, Alignment, ForbidExcess};
+/// use padded_column::{PaddedValue, Alignment, PanicOnExcess};
 /// let padded_value = PaddedValue {
 ///     value: "abcdef",
 ///     pad_block: '-',
 ///     total_width: 9,
 ///     alignment: Alignment::Right,
-///     handle_excess: ForbidExcess,
+///     handle_excess: PanicOnExcess,
 /// };
 /// assert_eq!(padded_value.to_string(), "---abcdef");
 /// ```
@@ -29,13 +29,13 @@ use derive_builder::Builder;
 /// ```
 /// # #[cfg(feature = "std")] fn main() {
 /// # use pretty_assertions::assert_eq;
-/// use padded_column::{PaddedValueBuilder, Alignment, ForbidExcess};
+/// use padded_column::{PaddedValueBuilder, Alignment, PanicOnExcess};
 /// let padded_value = PaddedValueBuilder::default()
 ///     .value("abcdef")
 ///     .pad_block('-')
 ///     .total_width(9)
 ///     .alignment(Alignment::Right)
-///     .handle_excess(ForbidExcess)
+///     .handle_excess(PanicOnExcess)
 ///     .build()
 ///     .unwrap();
 /// assert_eq!(padded_value.to_string(), "---abcdef");

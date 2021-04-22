@@ -1,7 +1,7 @@
 use crate::{Alignment, IgnoreExcess, PaddedValue, Width};
 
 #[cfg(feature = "std")]
-use crate::{ForbidExcess, PaddedColumn};
+use crate::{PaddedColumn, PanicOnExcess};
 
 macro_rules! single_fn {
     ($(#[$attributes:meta])* $name:ident = $alignment:ident) => {
@@ -27,7 +27,7 @@ macro_rules! multi_fn {
         #[cfg(feature = "std")]
         pub fn $name<ValueList>(
             values: ValueList
-        ) -> impl Iterator<Item = PaddedValue<ValueList::Item, char, ForbidExcess>>
+        ) -> impl Iterator<Item = PaddedValue<ValueList::Item, char, PanicOnExcess>>
         where
             ValueList: Iterator,
             ValueList::Item: Width,

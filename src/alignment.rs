@@ -7,13 +7,13 @@ pub enum Alignment {
     ///
     /// ```
     /// # use pretty_assertions::assert_eq;
-    /// use padded_column::{Alignment::Left, PaddedValue, ForbidExcess};
+    /// use padded_column::{Alignment::Left, PaddedValue, PanicOnExcess};
     /// let padded_value = PaddedValue {
     ///     alignment: Left,
     ///     value: "abcdef",
     ///     pad_block: '-',
     ///     total_width: 9,
-    ///     handle_excess: ForbidExcess,
+    ///     handle_excess: PanicOnExcess,
     /// };
     /// assert_eq!(padded_value.to_string(), "abcdef---");
     /// ```
@@ -25,13 +25,13 @@ pub enum Alignment {
     ///
     /// ```
     /// # use pretty_assertions::assert_eq;
-    /// use padded_column::{Alignment::Right, PaddedValue, ForbidExcess};
+    /// use padded_column::{Alignment::Right, PaddedValue, PanicOnExcess};
     /// let padded_value = PaddedValue {
     ///     alignment: Right,
     ///     value: "abcdef",
     ///     pad_block: '-',
     ///     total_width: 9,
-    ///     handle_excess: ForbidExcess,
+    ///     handle_excess: PanicOnExcess,
     /// };
     /// assert_eq!(padded_value.to_string(), "---abcdef");
     /// ```
@@ -44,7 +44,7 @@ pub enum Alignment {
     ///
     /// ```
     /// # use pretty_assertions::assert_eq;
-    /// use padded_column::{Alignment::CenterLeft, PaddedColumn, ForbidExcess};
+    /// use padded_column::{Alignment::CenterLeft, PaddedColumn, PanicOnExcess};
     /// let values = [
     ///     "Rust", "C", "C++", "C#", "JavaScript",
     ///     "TypeScript", "Java", "Kotlin", "Go",
@@ -74,7 +74,7 @@ pub enum Alignment {
     ///
     /// ```
     /// # use pretty_assertions::assert_eq;
-    /// use padded_column::{Alignment::CenterRight, PaddedColumn, ForbidExcess};
+    /// use padded_column::{Alignment::CenterRight, PaddedColumn, PanicOnExcess};
     /// let values = [
     ///     "Rust", "C", "C++", "C#", "JavaScript",
     ///     "TypeScript", "Java", "Kotlin", "Go",
