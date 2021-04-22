@@ -14,7 +14,7 @@ fmt-iter = "^0.1.0"
 unicode-width = "^0.1.8"
 
 [dependencies.derive_builder]
-version = "^0.10.0"
+version = "^0.10.2"
 features = []
 
 [dev-dependencies]
