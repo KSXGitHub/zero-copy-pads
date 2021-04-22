@@ -1,4 +1,4 @@
-use padded_column::{Alignment, IgnoreExcess, PaddedValue, PanicOnExcess};
+use padded_column::{Alignment, IgnoreExcess, ErrorOnExcess, PaddedValue, PanicOnExcess};
 use pretty_assertions::assert_eq;
 
 macro_rules! create {
@@ -23,6 +23,17 @@ fn panic_on_excess_without_excess() {
 #[should_panic(expected = "value's width (9) is greater than total_width (6)")]
 fn panic_on_excess_with_excess() {
     create!(PanicOnExcess, "abcdefghi", 6);
+}
+
+#[test]
+fn error_on_excess_without_excess() {
+    assert_eq!(create!(PanicOnExcess, "abcdef", 9), "---abcdef");
+}
+
+#[test]
+#[should_panic(expected = "a Display implementation returned an error unexpectedly: Error")]
+fn error_on_excess_with_excess() {
+    create!(ErrorOnExcess, "abcdefghi", 6);
 }
 
 #[test]
