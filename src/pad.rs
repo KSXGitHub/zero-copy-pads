@@ -147,9 +147,6 @@ impl<Value: Width, PadBlock: Display> Pad<Value, PadBlock> for AlignCenterLeft {
     }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub struct AlignCenterRight;
-
 /// Pad to both sides, place content in the middle, but shift to the right one
 /// block if it can't be exactly central.
 ///
@@ -181,6 +178,9 @@ pub struct AlignCenterRight;
 /// # }
 /// # #[cfg(not(feature = "std"))] fn main() {}
 /// ```
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct AlignCenterRight;
+
 impl<Value: Width, PadBlock: Display> Pad<Value, PadBlock> for AlignCenterRight {
     fn fmt(
         &self,
