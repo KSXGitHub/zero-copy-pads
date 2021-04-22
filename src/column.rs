@@ -6,6 +6,9 @@ use std::{cmp::max, collections::LinkedList, fmt::Display};
 
 /// Pad all values in a collection to be of same (maximum) width.
 ///
+/// **Key traits:**
+/// * [`IntoIterator`]: Build an iterator of padded values.
+///
 /// **Example:**
 ///
 /// ```
