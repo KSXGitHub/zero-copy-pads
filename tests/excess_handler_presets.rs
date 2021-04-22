@@ -1,4 +1,4 @@
-use padded_column::{Alignment, IgnoreExcess, ErrorOnExcess, PaddedValue, PanicOnExcess};
+use padded_column::{Alignment, ErrorOnExcess, IgnoreExcess, PaddedValue, PanicOnExcess};
 use pretty_assertions::assert_eq;
 
 macro_rules! create {
