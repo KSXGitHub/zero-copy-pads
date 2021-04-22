@@ -108,7 +108,7 @@ pub enum Alignment {
 }
 
 impl<Value: Width, PadBlock: Display> Pad<Value, PadBlock> for Alignment {
-    fn pad(
+    fn fmt(
         &self,
         formatter: &mut Formatter<'_>,
         value: &Value,
@@ -118,7 +118,7 @@ impl<Value: Width, PadBlock: Display> Pad<Value, PadBlock> for Alignment {
         use Alignment::*;
         macro_rules! call {
             ($name:ident) => {
-                $name.pad(formatter, value, pad_block, pad_width)
+                $name.fmt(formatter, value, pad_block, pad_width)
             };
         }
         match *self {

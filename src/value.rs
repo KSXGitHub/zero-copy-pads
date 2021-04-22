@@ -97,6 +97,6 @@ where
                 formatter,
             );
         };
-        pad.pad(formatter, value, pad_block, pad_width)
+        pad.fmt(formatter, value, pad_block, pad_width)
     }
 }

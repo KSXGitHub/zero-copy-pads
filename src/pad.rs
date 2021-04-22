@@ -9,7 +9,7 @@ use fmt_iter::repeat;
 /// or [`PaddedColumn`](crate::PaddedColumn).
 pub trait Pad<Value: Width, PadBlock: Display> {
     /// Pad a value that does not exceed.
-    fn pad(
+    fn fmt(
         &self,
         formatter: &mut Formatter<'_>,
         value: &Value,
@@ -24,14 +24,14 @@ where
     PadBlock: Display,
     X: Pad<Value, PadBlock> + Sized,
 {
-    fn pad(
+    fn fmt(
         &self,
         formatter: &mut Formatter<'_>,
         value: &Value,
         pad_block: &PadBlock,
         pad_width: usize,
     ) -> Result<(), Error> {
-        X::pad(*self, formatter, value, pad_block, pad_width)
+        X::fmt(*self, formatter, value, pad_block, pad_width)
     }
 }
 
@@ -55,7 +55,7 @@ where
 pub struct AlignLeft;
 
 impl<Value: Width, PadBlock: Display> Pad<Value, PadBlock> for AlignLeft {
-    fn pad(
+    fn fmt(
         &self,
         formatter: &mut Formatter<'_>,
         value: &Value,
@@ -87,7 +87,7 @@ impl<Value: Width, PadBlock: Display> Pad<Value, PadBlock> for AlignLeft {
 pub struct AlignRight;
 
 impl<Value: Width, PadBlock: Display> Pad<Value, PadBlock> for AlignRight {
-    fn pad(
+    fn fmt(
         &self,
         formatter: &mut Formatter<'_>,
         value: &Value,
@@ -134,7 +134,7 @@ impl<Value: Width, PadBlock: Display> Pad<Value, PadBlock> for AlignRight {
 pub struct AlignCenterLeft;
 
 impl<Value: Width, PadBlock: Display> Pad<Value, PadBlock> for AlignCenterLeft {
-    fn pad(
+    fn fmt(
         &self,
         formatter: &mut Formatter<'_>,
         value: &Value,
@@ -182,7 +182,7 @@ pub struct AlignCenterRight;
 /// # #[cfg(not(feature = "std"))] fn main() {}
 /// ```
 impl<Value: Width, PadBlock: Display> Pad<Value, PadBlock> for AlignCenterRight {
-    fn pad(
+    fn fmt(
         &self,
         formatter: &mut Formatter<'_>,
         value: &Value,
