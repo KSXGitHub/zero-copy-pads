@@ -6,6 +6,8 @@ use std::{cmp::max, collections::LinkedList, fmt::Display};
 
 /// Pad all values in a collection to be of same (maximum) width.
 ///
+/// **Required features:** `std`
+///
 /// **Key traits:**
 /// * [`IntoIterator`]: Build an iterator of padded values.
 ///
@@ -81,6 +83,8 @@ where
 }
 
 /// Iterator created by calling [`into_iter`](IntoIterator::into_iter) on [`PaddedColumn`].
+///
+/// **Required features:** `std`
 #[derive(Debug, Clone)]
 pub struct PaddedColumnIter<Value, PadBlock = char, Pad = Alignment>
 where
