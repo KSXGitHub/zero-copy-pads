@@ -38,6 +38,30 @@ const EXPECTED_RIGHT: &[&str] = &[
     "--------Go",
 ];
 
+const EXPECTED_CENTER_LEFT: &[&str] = &[
+    "---Rust---",
+    "----C-----",
+    "---C++----",
+    "----C#----",
+    "JavaScript",
+    "TypeScript",
+    "---Java---",
+    "--Kotlin--",
+    "----Go----",
+];
+
+const EXPECTED_CENTER_RIGHT: &[&str] = &[
+    "---Rust---",
+    "-----C----",
+    "----C++---",
+    "----C#----",
+    "JavaScript",
+    "TypeScript",
+    "---Java---",
+    "--Kotlin--",
+    "----Go----",
+];
+
 macro_rules! test_case {
     (
         $name:ident
@@ -77,6 +101,22 @@ test_case! {
 }
 
 test_case! {
+    align_center_left_array_of_str_slices
+    where
+        alignment = CenterLeft,
+        values = VALUES,
+        expectation = EXPECTED_CENTER_LEFT,
+}
+
+test_case! {
+    align_center_right_array_of_str_slices
+    where
+        alignment = CenterRight,
+        values = VALUES,
+        expectation = EXPECTED_CENTER_RIGHT,
+}
+
+test_case! {
     align_left_vec_of_str_indirect_references
     where
         alignment = Left,
@@ -90,6 +130,22 @@ test_case! {
         alignment = Right,
         values = VALUES.iter().collect::<Vec<&&str>>(),
         expectation = EXPECTED_RIGHT,
+}
+
+test_case! {
+    align_center_left_vec_of_str_indirect_references
+    where
+        alignment = CenterLeft,
+        values = VALUES.iter().collect::<Vec<&&str>>(),
+        expectation = EXPECTED_CENTER_LEFT,
+}
+
+test_case! {
+    align_center_right_vec_of_str_indirect_references
+    where
+        alignment = CenterRight,
+        values = VALUES.iter().collect::<Vec<&&str>>(),
+        expectation = EXPECTED_CENTER_RIGHT,
 }
 
 test_case! {
@@ -109,6 +165,22 @@ test_case! {
 }
 
 test_case! {
+    align_center_left_vec_of_owned_strings
+    where
+        alignment = CenterLeft,
+        values = VALUES.iter().map(ToString::to_string).collect::<Vec<String>>(),
+        expectation = EXPECTED_CENTER_LEFT,
+}
+
+test_case! {
+    align_center_right_vec_of_owned_strings
+    where
+        alignment = CenterRight,
+        values = VALUES.iter().map(ToString::to_string).collect::<Vec<String>>(),
+        expectation = EXPECTED_CENTER_RIGHT,
+}
+
+test_case! {
     align_left_vec_of_str_slices
     where
         alignment = Left,
@@ -122,4 +194,20 @@ test_case! {
         alignment = Right,
         values = VALUES.iter().copied().collect::<Vec<&str>>(),
         expectation = EXPECTED_RIGHT,
+}
+
+test_case! {
+    align_center_left_vec_of_str_slices
+    where
+        alignment = CenterLeft,
+        values = VALUES.iter().copied().collect::<Vec<&str>>(),
+        expectation = EXPECTED_CENTER_LEFT,
+}
+
+test_case! {
+    align_center_right_vec_of_str_slices
+    where
+        alignment = CenterRight,
+        values = VALUES.iter().copied().collect::<Vec<&str>>(),
+        expectation = EXPECTED_CENTER_RIGHT,
 }
