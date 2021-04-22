@@ -71,8 +71,8 @@ macro_rules! test_case {
     ) => {
         mod $name {
             use super::*;
-            use padded_column::{$pad, Alignment, PaddedColumn};
             use pretty_assertions::assert_eq;
+            use zero_copy_pads::{$pad, Alignment, PaddedColumn};
 
             #[test]
             fn pad_instance() {

@@ -10,7 +10,7 @@ pub enum Alignment {
     ///
     /// ```
     /// # use pretty_assertions::assert_eq;
-    /// use padded_column::{Alignment::Left, PaddedValue, PanicOnExcess};
+    /// use zero_copy_pads::{Alignment::Left, PaddedValue, PanicOnExcess};
     /// let padded_value = PaddedValue {
     ///     pad: Left,
     ///     value: "abcdef",
@@ -28,7 +28,7 @@ pub enum Alignment {
     ///
     /// ```
     /// # use pretty_assertions::assert_eq;
-    /// use padded_column::{Alignment::Right, PaddedValue, PanicOnExcess};
+    /// use zero_copy_pads::{Alignment::Right, PaddedValue, PanicOnExcess};
     /// let padded_value = PaddedValue {
     ///     pad: Right,
     ///     value: "abcdef",
@@ -48,7 +48,7 @@ pub enum Alignment {
     /// ```
     /// # #[cfg(feature = "std")] fn main() {
     /// # use pretty_assertions::assert_eq;
-    /// use padded_column::{Alignment::CenterLeft, PaddedColumn, PanicOnExcess};
+    /// use zero_copy_pads::{Alignment::CenterLeft, PaddedColumn, PanicOnExcess};
     /// let values = [
     ///     "Rust", "C", "C++", "C#", "JavaScript",
     ///     "TypeScript", "Java", "Kotlin", "Go",
@@ -81,7 +81,7 @@ pub enum Alignment {
     /// ```
     /// # #[cfg(feature = "std")] fn main() {
     /// # use pretty_assertions::assert_eq;
-    /// use padded_column::{Alignment::CenterRight, PaddedColumn, PanicOnExcess};
+    /// use zero_copy_pads::{Alignment::CenterRight, PaddedColumn, PanicOnExcess};
     /// let values = [
     ///     "Rust", "C", "C++", "C#", "JavaScript",
     ///     "TypeScript", "Java", "Kotlin", "Go",

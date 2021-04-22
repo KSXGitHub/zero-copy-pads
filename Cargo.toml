@@ -1,5 +1,5 @@
 [package]
-name = "padded-column"
+name = "zero-copy-pads"
 version = "0.0.0"
 authors = ["khai96_ <hvksmr1996@gmail.com>"]
 edition = "2018"

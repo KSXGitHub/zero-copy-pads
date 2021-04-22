@@ -1,5 +1,5 @@
-use padded_column::Width;
 use pretty_assertions::assert_eq;
+use zero_copy_pads::Width;
 
 #[test]
 fn width_of_str_indirect_references() {

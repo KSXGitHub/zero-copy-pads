@@ -1,5 +1,5 @@
-use padded_column::{AlignRight, ErrorOnExcess, IgnoreExcess, PaddedValue, PanicOnExcess};
 use pretty_assertions::assert_eq;
+use zero_copy_pads::{AlignRight, ErrorOnExcess, IgnoreExcess, PaddedValue, PanicOnExcess};
 
 macro_rules! create {
     ($handle_excess:expr, $value:expr, $total_width:expr) => {

@@ -41,7 +41,7 @@ where
 ///
 /// ```
 /// # use pretty_assertions::assert_eq;
-/// use padded_column::{AlignLeft, PaddedValue, PanicOnExcess};
+/// use zero_copy_pads::{AlignLeft, PaddedValue, PanicOnExcess};
 /// let padded_value = PaddedValue {
 ///     pad: AlignLeft,
 ///     value: "abcdef",
@@ -73,7 +73,7 @@ impl<Value: Width, PadBlock: Display> Pad<Value, PadBlock> for AlignLeft {
 ///
 /// ```
 /// # use pretty_assertions::assert_eq;
-/// use padded_column::{AlignRight, PaddedValue, PanicOnExcess};
+/// use zero_copy_pads::{AlignRight, PaddedValue, PanicOnExcess};
 /// let padded_value = PaddedValue {
 ///     pad: AlignRight,
 ///     value: "abcdef",
@@ -107,7 +107,7 @@ impl<Value: Width, PadBlock: Display> Pad<Value, PadBlock> for AlignRight {
 /// ```
 /// # #[cfg(feature = "std")] fn main() {
 /// # use pretty_assertions::assert_eq;
-/// use padded_column::{AlignCenterLeft, PaddedColumn, PanicOnExcess};
+/// use zero_copy_pads::{AlignCenterLeft, PaddedColumn, PanicOnExcess};
 /// let values = [
 ///     "Rust", "C", "C++", "C#", "JavaScript",
 ///     "TypeScript", "Java", "Kotlin", "Go",
@@ -158,7 +158,7 @@ pub struct AlignCenterRight;
 /// ```
 /// # #[cfg(feature = "std")] fn main() {
 /// # use pretty_assertions::assert_eq;
-/// use padded_column::{AlignCenterRight, PaddedColumn, PanicOnExcess};
+/// use zero_copy_pads::{AlignCenterRight, PaddedColumn, PanicOnExcess};
 /// let values = [
 ///     "Rust", "C", "C++", "C#", "JavaScript",
 ///     "TypeScript", "Java", "Kotlin", "Go",

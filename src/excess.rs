@@ -27,7 +27,7 @@ where
 ///
 /// ```
 /// # use pretty_assertions::assert_eq;
-/// use padded_column::{ExcessHandler, Excess, PaddedValue, AlignRight};
+/// use zero_copy_pads::{ExcessHandler, Excess, PaddedValue, AlignRight};
 /// use std::fmt::{Formatter, Result};
 /// struct TruncateExcessiveString;
 /// impl ExcessHandler<&str> for TruncateExcessiveString {
@@ -68,7 +68,7 @@ type ExcessHandlingFunctionInner<Value, PadBlock> =
 ///
 /// ```
 /// # use pretty_assertions::assert_eq;
-/// use padded_column::{ExcessHandlingFunction, Excess, PaddedValue, AlignRight};
+/// use zero_copy_pads::{ExcessHandlingFunction, Excess, PaddedValue, AlignRight};
 /// use std::fmt::{Formatter, Result};
 /// let truncate = ExcessHandlingFunction::<&str>(|excess, formatter| {
 ///     let mut value = excess.value.to_string();
@@ -165,7 +165,7 @@ preset! {
     #[doc = "add pads as usual:**"]
     #[doc = "```"]
     #[doc = "# use pretty_assertions::assert_eq;"]
-    #[doc = "use padded_column::{PaddedValue, AlignRight, IgnoreExcess};"]
+    #[doc = "use zero_copy_pads::{PaddedValue, AlignRight, IgnoreExcess};"]
     #[doc = "let padded_value = PaddedValue {"]
     #[doc = r#"    handle_excess: IgnoreExcess,"#]
     #[doc = r#"    value: "abcdef","#]
@@ -180,7 +180,7 @@ preset! {
     #[doc = "display `value` as is:**"]
     #[doc = "```"]
     #[doc = "# use pretty_assertions::assert_eq;"]
-    #[doc = "use padded_column::{PaddedValue, AlignRight, IgnoreExcess};"]
+    #[doc = "use zero_copy_pads::{PaddedValue, AlignRight, IgnoreExcess};"]
     #[doc = "let padded_value = PaddedValue {"]
     #[doc = r#"    handle_excess: IgnoreExcess,"#]
     #[doc = r#"    value: "abcdefghijkl","#]
@@ -207,7 +207,7 @@ preset! {
     #[doc = "add pads as usual:**"]
     #[doc = "```"]
     #[doc = "# use pretty_assertions::assert_eq;"]
-    #[doc = "use padded_column::{PaddedValue, AlignRight, ErrorOnExcess};"]
+    #[doc = "use zero_copy_pads::{PaddedValue, AlignRight, ErrorOnExcess};"]
     #[doc = "let padded_value = PaddedValue {"]
     #[doc = r#"    handle_excess: ErrorOnExcess,"#]
     #[doc = r#"    value: "abcdef","#]
@@ -222,7 +222,7 @@ preset! {
     #[doc = "return an [`Err`] of [`fmt::Error`](Error):**"]
     #[doc = "```"]
     #[doc = "# use pretty_assertions::assert_eq;"]
-    #[doc = "use padded_column::{PaddedValue, AlignRight, ErrorOnExcess};"]
+    #[doc = "use zero_copy_pads::{PaddedValue, AlignRight, ErrorOnExcess};"]
     #[doc = "let padded_value = PaddedValue {"]
     #[doc = r#"    handle_excess: ErrorOnExcess,"#]
     #[doc = r#"    value: "abcdefghijkl","#]
@@ -256,7 +256,7 @@ preset! {
     #[doc = "add pads as usual:**"]
     #[doc = "```"]
     #[doc = "# use pretty_assertions::assert_eq;"]
-    #[doc = "use padded_column::{PaddedValue, AlignRight, PanicOnExcess};"]
+    #[doc = "use zero_copy_pads::{PaddedValue, AlignRight, PanicOnExcess};"]
     #[doc = "let padded_value = PaddedValue {"]
     #[doc = r#"    handle_excess: PanicOnExcess,"#]
     #[doc = r#"    value: "abcdef","#]
@@ -270,7 +270,7 @@ preset! {
     #[doc = "**When `value.width()` is greater than `total_width`, panic:**"]
     #[doc = "```should_panic"]
     #[doc = "# use pretty_assertions::assert_eq;"]
-    #[doc = "use padded_column::{PaddedValue, AlignRight, PanicOnExcess};"]
+    #[doc = "use zero_copy_pads::{PaddedValue, AlignRight, PanicOnExcess};"]
     #[doc = "let padded_value = PaddedValue {"]
     #[doc = r#"    handle_excess: PanicOnExcess,"#]
     #[doc = r#"    value: "abcdefghijkl","#]

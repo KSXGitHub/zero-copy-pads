@@ -13,7 +13,7 @@ use derive_builder::Builder;
 ///
 /// ```
 /// # use pretty_assertions::assert_eq;
-/// use padded_column::{PaddedValue, AlignRight, PanicOnExcess};
+/// use zero_copy_pads::{PaddedValue, AlignRight, PanicOnExcess};
 /// let padded_value = PaddedValue {
 ///     value: "abcdef",
 ///     pad_block: '-',
@@ -29,7 +29,7 @@ use derive_builder::Builder;
 /// ```
 /// # #[cfg(feature = "std")] fn main() {
 /// # use pretty_assertions::assert_eq;
-/// use padded_column::{PaddedValueBuilder, AlignRight, PanicOnExcess};
+/// use zero_copy_pads::{PaddedValueBuilder, AlignRight, PanicOnExcess};
 /// let padded_value = PaddedValueBuilder::default()
 ///     .value("abcdef")
 ///     .pad_block('-')

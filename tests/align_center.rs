@@ -1,5 +1,5 @@
-use padded_column::{AlignCenterLeft, AlignCenterRight, PaddedValue, PanicOnExcess};
 use pretty_assertions::assert_eq;
+use zero_copy_pads::{AlignCenterLeft, AlignCenterRight, PaddedValue, PanicOnExcess};
 
 macro_rules! test_case {
     ($name:ident -> $pad:ident $value:literal $total_width:literal == $expected:literal) => {

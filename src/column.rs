@@ -13,7 +13,7 @@ use std::{cmp::max, collections::LinkedList, fmt::Display};
 ///
 /// ```
 /// # use pretty_assertions::assert_eq;
-/// use padded_column::{PaddedColumn, AlignRight};
+/// use zero_copy_pads::{PaddedColumn, AlignRight};
 /// let values = vec![
 ///     "Rust", "C", "C++", "C#", "JavaScript",
 ///     "TypeScript", "Java", "Kotlin", "Go",
