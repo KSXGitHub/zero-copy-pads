@@ -94,10 +94,18 @@ where
                 formatter,
             );
         };
-        let pad = fmt_iter::repeat(pad_block, pad_width);
+        let full_pad = || fmt_iter::repeat(pad_block, pad_width);
+        let half_pad = || fmt_iter::repeat(pad_block, pad_width >> 1);
+        let odd = || fmt_iter::repeat(pad_block, pad_width & 1);
         match *alignment {
-            Alignment::Right => write!(formatter, "{}{}", pad, value),
-            Alignment::Left => write!(formatter, "{}{}", value, pad),
+            Alignment::Right => write!(formatter, "{}{}", full_pad(), value),
+            Alignment::Left => write!(formatter, "{}{}", value, full_pad()),
+            Alignment::CenterLeft => {
+                write!(formatter, "{}{}{}{}", half_pad(), value, half_pad(), odd())
+            }
+            Alignment::CenterRight => {
+                write!(formatter, "{}{}{}{}", odd(), half_pad(), value, half_pad())
+            }
         }
     }
 }

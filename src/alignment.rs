@@ -36,4 +36,65 @@ pub enum Alignment {
     /// assert_eq!(padded_value.to_string(), "---abcdef");
     /// ```
     Right,
+
+    /// Pad to both sides, place content in the middle, but shift to the left one
+    /// block if it can't be exactly central.
+    ///
+    /// **Example:**
+    ///
+    /// ```
+    /// # use pretty_assertions::assert_eq;
+    /// use padded_column::{Alignment::CenterLeft, PaddedColumn, ForbidExcess};
+    /// let values = [
+    ///     "Rust", "C", "C++", "C#", "JavaScript",
+    ///     "TypeScript", "Java", "Kotlin", "Go",
+    /// ];
+    /// let padded_column = PaddedColumn {
+    ///     alignment: CenterLeft,
+    ///     values: values.iter(),
+    ///     pad_block: '-',
+    /// };
+    /// let padded_values: Vec<_> = padded_column
+    ///     .into_iter()
+    ///     .map(|x| x.to_string())
+    ///     .collect();
+    /// let expected = [
+    ///     "---Rust---", "----C-----", "---C++----",
+    ///     "----C#----", "JavaScript", "TypeScript",
+    ///     "---Java---", "--Kotlin--", "----Go----",
+    /// ];
+    /// assert_eq!(padded_values, expected);
+    /// ```
+    CenterLeft,
+
+    /// Pad to both sides, place content in the middle, but shift to the right one
+    /// block if it can't be exactly central.
+    ///
+    /// **Example:**
+    ///
+    /// ```
+    /// # use pretty_assertions::assert_eq;
+    /// use padded_column::{Alignment::CenterRight, PaddedColumn, ForbidExcess};
+    /// let values = [
+    ///     "Rust", "C", "C++", "C#", "JavaScript",
+    ///     "TypeScript", "Java", "Kotlin", "Go",
+    /// ];
+    /// let padded_column = PaddedColumn {
+    ///     alignment: CenterRight,
+    ///     values: values.iter(),
+    ///     pad_block: '-',
+    /// };
+    /// let padded_values: Vec<_> = padded_column
+    ///     .into_iter()
+    ///     .map(|x| x.to_string())
+    ///     .collect();
+    /// let expected = [
+    ///     "---Rust---", "-----C----", "----C++---",
+    ///     "----C#----", "JavaScript", "TypeScript",
+    ///     "---Java---", "--Kotlin--", "----Go----",
+    /// ];
+    /// assert_eq!(padded_values, expected);
+    /// ```
+    /// ```
+    CenterRight,
 }
