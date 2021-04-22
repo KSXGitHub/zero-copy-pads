@@ -1,3 +1,18 @@
+//! Padding/aligning values without heap allocation.
+//!
+//! **Features:**
+//! * `std` _(default feature)_: Enable features that require heap allocation.
+//!
+//! **Usage:**
+//!
+//! Almost all items are documented with example codes, such as
+//! [`align_left`], [`align_right`], [`align_center_left`], [`align_center_right`],
+//! [`align_column_left`], [`align_column_right`],
+//! [`align_column_center_left`], [`align_column_center_right`],
+//! [`PaddedValue`], [`PaddedColumn`], [`Alignment`],
+//! [`AlignLeft`], [`AlignRight`], [`AlignCenterLeft`], [`AlignCenterRight`],
+//! etc.
+
 #![cfg_attr(not(feature = "std"), no_std)]
 
 mod alignment;
