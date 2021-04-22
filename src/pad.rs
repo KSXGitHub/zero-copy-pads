@@ -2,13 +2,13 @@ use crate::Width;
 use core::fmt::{Display, Error, Formatter};
 use fmt_iter::repeat;
 
-/// Pad a value that does not exceed.
+/// Pad a value knowing the number of blocks.
 ///
 /// Values that implement this trait are to be passed
 /// to `pad` field of [`PaddedValue`](crate::PaddedValue)
 /// or [`PaddedColumn`](crate::PaddedColumn).
 pub trait Pad<Value: Width, PadBlock: Display> {
-    /// Pad a value that does not exceed.
+    /// Pad a value knowing the number of blocks.
     fn fmt(
         &self,
         formatter: &mut Formatter<'_>,
