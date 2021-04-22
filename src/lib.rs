@@ -1,7 +1,9 @@
 //! Padding/aligning values without heap allocation.
 //!
 //! **Features:**
-//! * `std` _(default feature)_: Enable features that require heap allocation.
+//! * `std` _(default feature)_:
+//!   - Disable `#![no_std]`.
+//!   - Enable features that require heap allocation.
 //!
 //! **Usage:**
 //!
