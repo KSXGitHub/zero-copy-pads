@@ -76,7 +76,7 @@ macro_rules! test_case {
             let padded_column = PaddedColumn {
                 values: values.into_iter(),
                 pad_block: '-',
-                alignment: Alignment::$alignment,
+                pad: Alignment::$alignment,
             };
             let actual: Vec<_> = padded_column.into_iter().map(|x| x.to_string()).collect();
             assert_eq!(actual, $expected);

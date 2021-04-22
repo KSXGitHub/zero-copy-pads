@@ -2,12 +2,14 @@
 
 mod alignment;
 mod excess;
+mod pad;
 mod shortcuts;
 mod value;
 mod width;
 
 pub use alignment::*;
 pub use excess::*;
+pub use pad::*;
 pub use shortcuts::*;
 pub use value::*;
 pub use width::*;

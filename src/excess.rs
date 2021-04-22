@@ -42,7 +42,7 @@ where
 ///     value: "abcdefghi",
 ///     total_width: 4,
 ///     pad_block: ' ',
-///     alignment: Alignment::Right,
+///     pad: Alignment::Right,
 /// };
 /// assert_eq!(padded_value.to_string(), "abcd");
 /// ```
@@ -80,7 +80,7 @@ type ExcessHandlingFunctionInner<Value, PadBlock> =
 ///     value: "abcdefghi",
 ///     total_width: 4,
 ///     pad_block: ' ',
-///     alignment: Alignment::Right,
+///     pad: Alignment::Right,
 /// };
 /// assert_eq!(padded_value.to_string(), "abcd");
 /// ```
@@ -171,7 +171,7 @@ preset! {
     #[doc = r#"    value: "abcdef","#]
     #[doc = r#"    pad_block: '-',"#]
     #[doc = r#"    total_width: 9,"#]
-    #[doc = r#"    alignment: Alignment::Right,"#]
+    #[doc = r#"    pad: Alignment::Right,"#]
     #[doc = "};"]
     #[doc = r#"assert_eq!(padded_value.to_string(), "---abcdef");"#]
     #[doc = "```"]
@@ -186,7 +186,7 @@ preset! {
     #[doc = r#"    value: "abcdefghijkl","#]
     #[doc = r#"    pad_block: '-',"#]
     #[doc = r#"    total_width: 9,"#]
-    #[doc = r#"    alignment: Alignment::Right,"#]
+    #[doc = r#"    pad: Alignment::Right,"#]
     #[doc = "};"]
     #[doc = r#"assert_eq!(padded_value.to_string(), "abcdefghijkl");"#]
     #[doc = "```"]
@@ -213,7 +213,7 @@ preset! {
     #[doc = r#"    value: "abcdef","#]
     #[doc = r#"    pad_block: '-',"#]
     #[doc = r#"    total_width: 9,"#]
-    #[doc = r#"    alignment: Alignment::Right,"#]
+    #[doc = r#"    pad: Alignment::Right,"#]
     #[doc = "};"]
     #[doc = r#"assert_eq!(padded_value.to_string(), "---abcdef");"#]
     #[doc = "```"]
@@ -228,7 +228,7 @@ preset! {
     #[doc = r#"    value: "abcdefghijkl","#]
     #[doc = r#"    pad_block: '-',"#]
     #[doc = r#"    total_width: 9,"#]
-    #[doc = r#"    alignment: Alignment::Right,"#]
+    #[doc = r#"    pad: Alignment::Right,"#]
     #[doc = "};"]
     #[doc = "let mut output = String::new();"]
     #[doc = r#"std::fmt::write("#]
@@ -262,7 +262,7 @@ preset! {
     #[doc = r#"    value: "abcdef","#]
     #[doc = r#"    pad_block: '-',"#]
     #[doc = r#"    total_width: 9,"#]
-    #[doc = r#"    alignment: Alignment::Right,"#]
+    #[doc = r#"    pad: Alignment::Right,"#]
     #[doc = "};"]
     #[doc = r#"assert_eq!(padded_value.to_string(), "---abcdef");"#]
     #[doc = "```"]
@@ -276,7 +276,7 @@ preset! {
     #[doc = r#"    value: "abcdefghijkl","#]
     #[doc = r#"    pad_block: '-',"#]
     #[doc = r#"    total_width: 9,"#]
-    #[doc = r#"    alignment: Alignment::Right,"#]
+    #[doc = r#"    pad: Alignment::Right,"#]
     #[doc = "};"]
     #[doc = r#"assert_eq!(padded_value.to_string(), "abcdefghijkl");"#]
     #[doc = "```"]

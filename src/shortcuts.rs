@@ -1,4 +1,4 @@
-use crate::{Alignment, IgnoreExcess, PaddedValue, Width};
+use crate::{AlignLeft, AlignRight, IgnoreExcess, PaddedValue, Width};
 
 #[cfg(feature = "std")]
 use crate::{PaddedColumn, PanicOnExcess};
@@ -9,12 +9,12 @@ macro_rules! single_fn {
         pub fn $name<Value: Width>(
             value: Value,
             total_width: usize
-        ) -> PaddedValue<Value, char, IgnoreExcess> {
+        ) -> PaddedValue<Value, char, IgnoreExcess, $alignment> {
             PaddedValue {
                 value,
                 total_width,
                 pad_block: ' ',
-                alignment: Alignment::$alignment,
+                pad: $alignment,
                 handle_excess: IgnoreExcess,
             }
         }
@@ -27,7 +27,9 @@ macro_rules! multi_fn {
         #[cfg(feature = "std")]
         pub fn $name<ValueList>(
             values: ValueList
-        ) -> impl Iterator<Item = PaddedValue<ValueList::Item, char, PanicOnExcess>>
+        ) -> impl Iterator<
+            Item = PaddedValue<ValueList::Item, char, PanicOnExcess, $alignment>
+        >
         where
             ValueList: Iterator,
             ValueList::Item: Width,
@@ -35,7 +37,7 @@ macro_rules! multi_fn {
             PaddedColumn {
                 values,
                 pad_block: ' ',
-                alignment: Alignment::$alignment,
+                pad: $alignment,
             }
             .into_iter()
         }
@@ -64,7 +66,7 @@ single_fn! {
     #[doc = "let padded_value = align_left(value, 5);"]
     #[doc = "assert_eq!(padded_value.to_string(), value);"]
     #[doc = "```"]
-    align_left = Left
+    align_left = AlignLeft
 }
 
 single_fn! {
@@ -89,7 +91,7 @@ single_fn! {
     #[doc = "let padded_value = align_right(value, 5);"]
     #[doc = "assert_eq!(padded_value.to_string(), value);"]
     #[doc = "```"]
-    align_right = Right
+    align_right = AlignRight
 }
 
 multi_fn! {
@@ -114,7 +116,7 @@ multi_fn! {
     #[doc = r#"];"#]
     #[doc = "assert_eq!(padded_values, expected);"]
     #[doc = "```"]
-    align_column_left = Left
+    align_column_left = AlignLeft
 }
 
 multi_fn! {
@@ -139,5 +141,5 @@ multi_fn! {
     #[doc = r#"];"#]
     #[doc = "assert_eq!(padded_values, expected);"]
     #[doc = "```"]
-    align_column_right = Right
+    align_column_right = AlignRight
 }

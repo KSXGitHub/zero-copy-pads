@@ -18,7 +18,7 @@ use derive_builder::Builder;
 ///     value: "abcdef",
 ///     pad_block: '-',
 ///     total_width: 9,
-///     alignment: Alignment::Right,
+///     pad: Alignment::Right,
 ///     handle_excess: PanicOnExcess,
 /// };
 /// assert_eq!(padded_value.to_string(), "---abcdef");
@@ -34,7 +34,7 @@ use derive_builder::Builder;
 ///     .value("abcdef")
 ///     .pad_block('-')
 ///     .total_width(9)
-///     .alignment(Alignment::Right)
+///     .pad(Alignment::Right)
 ///     .handle_excess(PanicOnExcess)
 ///     .build()
 ///     .unwrap();
@@ -48,10 +48,12 @@ pub struct PaddedValue<
     Value,
     PadBlock = char,
     HandleExcess = ExcessHandlingFunction<Value, PadBlock>,
+    Pad = Alignment,
 > where
     Value: Width,
     PadBlock: Display,
     HandleExcess: ExcessHandler<Value, PadBlock>,
+    Pad: crate::Pad<Value, PadBlock>,
 {
     /// Value to be padded.
     pub value: Value,
@@ -59,24 +61,25 @@ pub struct PaddedValue<
     pub pad_block: PadBlock,
     /// Total width to fulfill.
     pub total_width: usize,
-    /// Where to place the pad.
-    pub alignment: Alignment,
+    /// How to pad.
+    pub pad: Pad,
     /// How to write when the actual width of `value` exceeds `total_width`.
     pub handle_excess: HandleExcess,
 }
 
-impl<Value, PadBlock, HandleExcess> Display for PaddedValue<Value, PadBlock, HandleExcess>
+impl<Value, PadBlock, HandleExcess, Pad> Display for PaddedValue<Value, PadBlock, HandleExcess, Pad>
 where
     Value: Width,
     PadBlock: Display,
     HandleExcess: ExcessHandler<Value, PadBlock>,
+    Pad: crate::Pad<Value, PadBlock>,
 {
     fn fmt(&self, formatter: &mut Formatter<'_>) -> Result<(), Error> {
         let PaddedValue {
             value,
             pad_block,
             total_width,
-            alignment,
+            pad,
             handle_excess,
         } = self;
         let total_width = *total_width;
@@ -94,18 +97,6 @@ where
                 formatter,
             );
         };
-        let full_pad = || fmt_iter::repeat(pad_block, pad_width);
-        let half_pad = || fmt_iter::repeat(pad_block, pad_width >> 1);
-        let odd = || fmt_iter::repeat(pad_block, pad_width & 1);
-        match *alignment {
-            Alignment::Right => write!(formatter, "{}{}", full_pad(), value),
-            Alignment::Left => write!(formatter, "{}{}", value, full_pad()),
-            Alignment::CenterLeft => {
-                write!(formatter, "{}{}{}{}", half_pad(), value, half_pad(), odd())
-            }
-            Alignment::CenterRight => {
-                write!(formatter, "{}{}{}{}", odd(), half_pad(), value, half_pad())
-            }
-        }
+        pad.pad(formatter, value, pad_block, pad_width)
     }
 }

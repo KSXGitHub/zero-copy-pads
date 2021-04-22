@@ -18,7 +18,7 @@ use std::{cmp::max, collections::LinkedList, fmt::Display};
 /// let padded_column = PaddedColumn {
 ///     values: values.iter(),
 ///     pad_block: ' ',
-///     alignment: Alignment::Right,
+///     pad: Alignment::Right,
 /// };
 /// let padded_values: Vec<_> = padded_column
 ///     .into_iter()
@@ -32,33 +32,35 @@ use std::{cmp::max, collections::LinkedList, fmt::Display};
 /// assert_eq!(padded_values, expected);
 /// ```
 #[derive(Debug, Clone, Copy, Builder)]
-pub struct PaddedColumn<ValueIter, PadBlock = char>
+pub struct PaddedColumn<ValueIter, PadBlock = char, Pad = Alignment>
 where
     ValueIter: Iterator,
     ValueIter::Item: Width,
     PadBlock: Display + Copy,
+    Pad: crate::Pad<ValueIter::Item, PadBlock> + Copy,
 {
     /// Values to be padded.
     pub values: ValueIter,
     /// Block of the pad (expected to have width of 1).
     pub pad_block: PadBlock,
     /// Where to place the pad.
-    pub alignment: Alignment,
+    pub pad: Pad,
 }
 
-impl<ValueIter, PadBlock> IntoIterator for PaddedColumn<ValueIter, PadBlock>
+impl<ValueIter, PadBlock, Pad> IntoIterator for PaddedColumn<ValueIter, PadBlock, Pad>
 where
     ValueIter: Iterator,
     ValueIter::Item: Width,
     PadBlock: Display + Copy,
+    Pad: crate::Pad<ValueIter::Item, PadBlock> + Copy,
 {
-    type Item = PaddedValue<ValueIter::Item, PadBlock, PanicOnExcess>;
-    type IntoIter = PaddedColumnIter<ValueIter::Item, PadBlock>;
+    type Item = PaddedValue<ValueIter::Item, PadBlock, PanicOnExcess, Pad>;
+    type IntoIter = PaddedColumnIter<ValueIter::Item, PadBlock, Pad>;
     fn into_iter(self) -> Self::IntoIter {
         let PaddedColumn {
             values,
             pad_block,
-            alignment,
+            pad,
         } = self;
         let mut value_list = LinkedList::new();
         let mut total_width = 0;
@@ -69,7 +71,7 @@ where
         PaddedColumnIter {
             value_iter: value_list.into_iter(),
             pad_block,
-            alignment,
+            pad,
             total_width,
         }
     }
@@ -77,35 +79,37 @@ where
 
 /// Iterator created by calling [`into_iter`](IntoIterator::into_iter) on [`PaddedColumn`].
 #[derive(Debug, Clone)]
-pub struct PaddedColumnIter<Value, PadBlock = char>
+pub struct PaddedColumnIter<Value, PadBlock = char, Pad = Alignment>
 where
     Value: Width,
     PadBlock: Display + Copy,
+    Pad: crate::Pad<Value, PadBlock> + Copy,
 {
     value_iter: <LinkedList<Value> as IntoIterator>::IntoIter,
     pad_block: PadBlock,
-    alignment: Alignment,
+    pad: Pad,
     total_width: usize,
 }
 
-impl<Value, PadBlock> Iterator for PaddedColumnIter<Value, PadBlock>
+impl<Value, PadBlock, Pad> Iterator for PaddedColumnIter<Value, PadBlock, Pad>
 where
     Value: Width,
     PadBlock: Display + Copy,
+    Pad: crate::Pad<Value, PadBlock> + Copy,
 {
-    type Item = PaddedValue<Value, PadBlock, PanicOnExcess>;
+    type Item = PaddedValue<Value, PadBlock, PanicOnExcess, Pad>;
 
     fn next(&mut self) -> Option<Self::Item> {
         let PaddedColumnIter {
             value_iter,
             pad_block,
-            alignment,
+            pad,
             total_width,
         } = self;
         value_iter.next().map(|value| PaddedValue {
             value,
             pad_block: *pad_block,
-            alignment: *alignment,
+            pad: *pad,
             total_width: *total_width,
             handle_excess: PanicOnExcess,
         })

@@ -1,3 +1,6 @@
+use crate::{AlignCenterLeft, AlignCenterRight, AlignLeft, AlignRight, Pad, Width};
+use core::fmt::{Display, Error, Formatter};
+
 /// Where the place the pad blocks.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Alignment {
@@ -9,7 +12,7 @@ pub enum Alignment {
     /// # use pretty_assertions::assert_eq;
     /// use padded_column::{Alignment::Left, PaddedValue, PanicOnExcess};
     /// let padded_value = PaddedValue {
-    ///     alignment: Left,
+    ///     pad: Left,
     ///     value: "abcdef",
     ///     pad_block: '-',
     ///     total_width: 9,
@@ -27,7 +30,7 @@ pub enum Alignment {
     /// # use pretty_assertions::assert_eq;
     /// use padded_column::{Alignment::Right, PaddedValue, PanicOnExcess};
     /// let padded_value = PaddedValue {
-    ///     alignment: Right,
+    ///     pad: Right,
     ///     value: "abcdef",
     ///     pad_block: '-',
     ///     total_width: 9,
@@ -51,7 +54,7 @@ pub enum Alignment {
     ///     "TypeScript", "Java", "Kotlin", "Go",
     /// ];
     /// let padded_column = PaddedColumn {
-    ///     alignment: CenterLeft,
+    ///     pad: CenterLeft,
     ///     values: values.iter(),
     ///     pad_block: '-',
     /// };
@@ -84,7 +87,7 @@ pub enum Alignment {
     ///     "TypeScript", "Java", "Kotlin", "Go",
     /// ];
     /// let padded_column = PaddedColumn {
-    ///     alignment: CenterRight,
+    ///     pad: CenterRight,
     ///     values: values.iter(),
     ///     pad_block: '-',
     /// };
@@ -102,4 +105,27 @@ pub enum Alignment {
     /// # #[cfg(not(feature = "std"))] fn main() {}
     /// ```
     CenterRight,
+}
+
+impl<Value: Width, PadBlock: Display> Pad<Value, PadBlock> for Alignment {
+    fn pad(
+        &self,
+        formatter: &mut Formatter<'_>,
+        value: &Value,
+        pad_block: &PadBlock,
+        pad_width: usize,
+    ) -> Result<(), Error> {
+        use Alignment::*;
+        macro_rules! call {
+            ($name:ident) => {
+                $name.pad(formatter, value, pad_block, pad_width)
+            };
+        }
+        match *self {
+            Left => call!(AlignLeft),
+            Right => call!(AlignRight),
+            CenterLeft => call!(AlignCenterLeft),
+            CenterRight => call!(AlignCenterRight),
+        }
+    }
 }
