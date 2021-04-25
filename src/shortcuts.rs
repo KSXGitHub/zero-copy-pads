@@ -3,7 +3,7 @@ use crate::{
 };
 
 #[cfg(feature = "std")]
-use crate::{PaddedColumn, PanicOnExcess};
+use crate::{PaddedColumn, PaddedColumnIter};
 
 macro_rules! single_fn {
     ($(#[$attributes:meta])* $name:ident = $alignment:ident) => {
@@ -29,9 +29,7 @@ macro_rules! multi_fn {
         #[cfg(feature = "std")]
         pub fn $name<ValueList>(
             values: ValueList
-        ) -> impl Iterator<
-            Item = PaddedValue<ValueList::Item, char, PanicOnExcess, $alignment>
-        >
+        ) ->  PaddedColumnIter<ValueList::Item, char, $alignment>
         where
             ValueList: Iterator,
             ValueList::Item: Width,
