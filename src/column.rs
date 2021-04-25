@@ -143,4 +143,8 @@ where
             handle_excess: PanicOnExcess,
         })
     }
+
+    fn size_hint(&self) -> (usize, Option<usize>) {
+        self.value_iter.size_hint()
+    }
 }
