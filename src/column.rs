@@ -98,6 +98,28 @@ where
     total_width: usize,
 }
 
+impl<Value, PadBlock, Pad> PaddedColumnIter<Value, PadBlock, Pad>
+where
+    Value: Width,
+    PadBlock: Display + Copy,
+    Pad: crate::Pad<Value, PadBlock> + Copy,
+{
+    /// Pad block that was used in the construction of [`PaddedColumn`].
+    pub fn pad_block(&self) -> PadBlock {
+        self.pad_block
+    }
+
+    /// Padding method that was used in the construction of [`PaddedColumn`].
+    pub fn pad(&self) -> Pad {
+        self.pad
+    }
+
+    /// Maximum width of all items that were passed to [`PaddedColumn`].
+    pub fn total_width(&self) -> usize {
+        self.total_width
+    }
+}
+
 impl<Value, PadBlock, Pad> Iterator for PaddedColumnIter<Value, PadBlock, Pad>
 where
     Value: Width,
