@@ -148,3 +148,14 @@ where
         self.value_iter.size_hint()
     }
 }
+
+impl<Value, PadBlock, Pad> ExactSizeIterator for PaddedColumnIter<Value, PadBlock, Pad>
+where
+    Value: Width,
+    PadBlock: Display + Copy,
+    Pad: crate::Pad<Value, PadBlock> + Copy,
+{
+    fn len(&self) -> usize {
+        self.value_iter.len()
+    }
+}
