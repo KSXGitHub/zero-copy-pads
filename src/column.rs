@@ -67,18 +67,16 @@ where
             pad_block,
             pad,
         } = self;
-        let mut value_list = LinkedList::new();
-        let mut total_width = 0;
-        for value in values {
-            total_width = max(total_width, value.width());
-            value_list.push_back(value);
-        }
-        PaddedColumnIter {
-            value_list,
+        let mut iter = PaddedColumnIter {
+            value_list: LinkedList::new(),
+            total_width: 0,
             pad_block,
             pad,
-            total_width,
+        };
+        for value in values {
+            iter.push_back(value);
         }
+        iter
     }
 }
 
@@ -104,6 +102,14 @@ where
     PadBlock: Display + Copy,
     Pad: crate::Pad<Value, PadBlock> + Copy,
 {
+    /// Add a value to the column.
+    /// If width of the new value is greater than the current total_width,
+    /// set it as the new total_width.
+    pub fn push_back(&mut self, value: Value) {
+        self.total_width = max(self.total_width, value.width());
+        self.value_list.push_back(value);
+    }
+
     /// Pad block that was used in the construction of [`PaddedColumn`].
     pub fn pad_block(&self) -> PadBlock {
         self.pad_block
