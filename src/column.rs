@@ -73,9 +73,7 @@ where
             pad_block,
             pad,
         };
-        for value in values {
-            iter.push_back(value);
-        }
+        iter.extend(values);
         iter
     }
 }
@@ -164,5 +162,18 @@ where
 {
     fn len(&self) -> usize {
         self.value_list.len()
+    }
+}
+
+impl<Value, PadBlock, Pad> Extend<Value> for PaddedColumnIter<Value, PadBlock, Pad>
+where
+    Value: Width,
+    PadBlock: Display + Copy,
+    Pad: crate::Pad<Value, PadBlock> + Copy,
+{
+    fn extend<Values: IntoIterator<Item = Value>>(&mut self, values: Values) {
+        for value in values {
+            self.push_back(value);
+        }
     }
 }
