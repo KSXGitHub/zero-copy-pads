@@ -74,7 +74,7 @@ where
             value_list.push_back(value);
         }
         PaddedColumnIter {
-            value_iter: value_list.into_iter(),
+            value_list,
             pad_block,
             pad,
             total_width,
@@ -92,7 +92,7 @@ where
     PadBlock: Display + Copy,
     Pad: crate::Pad<Value, PadBlock> + Copy,
 {
-    value_iter: <LinkedList<Value> as IntoIterator>::IntoIter,
+    value_list: LinkedList<Value>,
     pad_block: PadBlock,
     pad: Pad,
     total_width: usize,
@@ -130,12 +130,12 @@ where
 
     fn next(&mut self) -> Option<Self::Item> {
         let PaddedColumnIter {
-            value_iter,
+            value_list,
             pad_block,
             pad,
             total_width,
         } = self;
-        value_iter.next().map(|value| PaddedValue {
+        value_list.pop_front().map(|value| PaddedValue {
             value,
             pad_block: *pad_block,
             pad: *pad,
@@ -145,7 +145,8 @@ where
     }
 
     fn size_hint(&self) -> (usize, Option<usize>) {
-        self.value_iter.size_hint()
+        let len = self.len();
+        (len, Some(len))
     }
 }
 
@@ -156,6 +157,6 @@ where
     Pad: crate::Pad<Value, PadBlock> + Copy,
 {
     fn len(&self) -> usize {
-        self.value_iter.len()
+        self.value_list.len()
     }
 }
