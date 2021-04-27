@@ -68,12 +68,7 @@ where
             pad_block,
             pad,
         } = self;
-        let mut iter = PaddedColumnIter {
-            value_list: LinkedList::new(),
-            total_width: 0,
-            pad_block,
-            pad,
-        };
+        let mut iter = PaddedColumnIter::new(pad_block, pad);
         iter.extend(values);
         iter
     }
@@ -101,6 +96,16 @@ where
     PadBlock: Display + Copy,
     Pad: crate::Pad<Value, PadBlock> + Copy,
 {
+    /// Initialize an empty iterator.
+    pub fn new(pad_block: PadBlock, pad: Pad) -> Self {
+        PaddedColumnIter {
+            value_list: LinkedList::new(),
+            total_width: 0,
+            pad_block,
+            pad,
+        }
+    }
+
     /// Add a value to the column.
     /// If width of the new value is greater than the current total_width,
     /// set it as the new total_width.
