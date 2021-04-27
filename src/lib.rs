@@ -38,3 +38,5 @@ mod column;
 
 #[cfg(feature = "std")]
 pub use column::*;
+
+pub use fmt_iter;
