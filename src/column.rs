@@ -186,6 +186,6 @@ where
     Pad: crate::Pad<Value, PadBlock> + Copy,
 {
     fn width(&self) -> usize {
-        self.total_width()
+        self.total_width() * self.len()
     }
 }

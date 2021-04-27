@@ -115,7 +115,8 @@ macro_rules! test_case {
                     .iter()
                     .map(|x| x.len())
                     .max()
-                    .expect("length of the longest string");
+                    .expect("length of the longest string")
+                    .pipe(|x| x * values.len());
                 assert_eq!(actual, expected);
             }
         }
