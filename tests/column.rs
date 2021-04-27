@@ -71,8 +71,10 @@ macro_rules! test_case {
     ) => {
         mod $name {
             use super::*;
+            use fmt_iter::FmtIter;
+            use pipe_trait::Pipe;
             use pretty_assertions::assert_eq;
-            use zero_copy_pads::{$pad, Alignment, PaddedColumn};
+            use zero_copy_pads::{$pad, Alignment, PaddedColumn, Width};
 
             #[test]
             fn pad_instance() {
@@ -96,6 +98,25 @@ macro_rules! test_case {
                 };
                 let actual: Vec<_> = padded_column.into_iter().map(|x| x.to_string()).collect();
                 assert_eq!(actual, $expected);
+            }
+
+            #[test]
+            fn fmt_iter_width() {
+                let values = $values;
+                let actual = PaddedColumn {
+                    values: values.iter(),
+                    pad_block: '-',
+                    pad: $pad,
+                }
+                .into_iter()
+                .pipe(FmtIter::from)
+                .width();
+                let expected = values
+                    .iter()
+                    .map(|x| x.len())
+                    .max()
+                    .expect("length of the longest string");
+                assert_eq!(actual, expected);
             }
         }
     };

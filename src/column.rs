@@ -2,6 +2,7 @@
 
 use crate::{Alignment, PaddedValue, PanicOnExcess, Width};
 use derive_builder::Builder;
+use fmt_iter::FmtIter;
 use std::{cmp::max, collections::LinkedList, fmt::Display};
 
 /// Pad all values in a collection to be of same (maximum) width.
@@ -175,5 +176,16 @@ where
         for value in values {
             self.push_back(value);
         }
+    }
+}
+
+impl<Value, PadBlock, Pad> Width for FmtIter<PaddedColumnIter<Value, PadBlock, Pad>>
+where
+    Value: Width + Clone,
+    PadBlock: Display + Copy,
+    Pad: crate::Pad<Value, PadBlock> + Copy,
+{
+    fn width(&self) -> usize {
+        self.total_width()
     }
 }
