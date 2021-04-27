@@ -82,7 +82,7 @@ where
 /// Iterator created by calling [`into_iter`](IntoIterator::into_iter) on [`PaddedColumn`].
 ///
 /// **Required features:** `std`
-#[derive(Debug, Default, Clone)]
+#[derive(Debug, Clone)]
 pub struct PaddedColumnIter<Value, PadBlock = char, Pad = Alignment>
 where
     Value: Width,
