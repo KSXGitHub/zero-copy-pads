@@ -100,3 +100,15 @@ where
         pad.fmt(formatter, value, pad_block, pad_width)
     }
 }
+
+impl<Value, PadBlock, HandleExcess, Pad> Width for PaddedValue<Value, PadBlock, HandleExcess, Pad>
+where
+    Value: Width,
+    PadBlock: Display,
+    HandleExcess: ExcessHandler<Value, PadBlock>,
+    Pad: crate::Pad<Value, PadBlock>,
+{
+    fn width(&self) -> usize {
+        self.total_width
+    }
+}
