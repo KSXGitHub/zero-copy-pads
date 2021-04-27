@@ -32,7 +32,7 @@ std = ["derive_builder/std"]
 
 [dependencies]
 derive_more = "^0.99.13"
-fmt-iter = "^0.1.0"
+fmt-iter = "^0.2.0"
 unicode-width = "^0.1.8"
 
 [dependencies.derive_builder]
