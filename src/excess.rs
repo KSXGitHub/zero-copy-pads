@@ -173,88 +173,92 @@ macro_rules! preset {
 preset! {
     impl |excess, formatter| write!(formatter, "{}", excess.value);
 
-    #[doc = "Ignore excess, write `value` to `formatter` without padding."]
-    #[doc = ""]
-    #[doc = "**When `value.width()` is not greater than `total_width`,"]
-    #[doc = "add pads as usual:**"]
-    #[doc = "```"]
-    #[doc = "# use pretty_assertions::assert_eq;"]
-    #[doc = "use zero_copy_pads::{PaddedValue, AlignRight, IgnoreExcess};"]
-    #[doc = "let padded_value = PaddedValue {"]
-    #[doc = r#"    handle_excess: IgnoreExcess,"#]
-    #[doc = r#"    value: "abcdef","#]
-    #[doc = r#"    pad_block: '-',"#]
-    #[doc = r#"    total_width: 9,"#]
-    #[doc = r#"    pad: AlignRight,"#]
-    #[doc = "};"]
-    #[doc = r#"assert_eq!(padded_value.to_string(), "---abcdef");"#]
-    #[doc = "```"]
-    #[doc = ""]
-    #[doc = "**When `value.width()` is greater than `total_width`,"]
-    #[doc = "display `value` as is:**"]
-    #[doc = "```"]
-    #[doc = "# use pretty_assertions::assert_eq;"]
-    #[doc = "use zero_copy_pads::{PaddedValue, AlignRight, IgnoreExcess};"]
-    #[doc = "let padded_value = PaddedValue {"]
-    #[doc = r#"    handle_excess: IgnoreExcess,"#]
-    #[doc = r#"    value: "abcdefghijkl","#]
-    #[doc = r#"    pad_block: '-',"#]
-    #[doc = r#"    total_width: 9,"#]
-    #[doc = r#"    pad: AlignRight,"#]
-    #[doc = "};"]
-    #[doc = r#"assert_eq!(padded_value.to_string(), "abcdefghijkl");"#]
-    #[doc = "```"]
+    /// Ignore excess, write `value` to `formatter` without padding.
+    ///
+    /// **When `value.width()` is not greater than `total_width`,
+    /// add pads as usual:**
+    ///
+    /// ```
+    /// # use pretty_assertions::assert_eq;
+    /// use zero_copy_pads::{PaddedValue, AlignRight, IgnoreExcess};
+    /// let padded_value = PaddedValue {
+    ///     handle_excess: IgnoreExcess,
+    ///     value: "abcdef",
+    ///     pad_block: '-',
+    ///     total_width: 9,
+    ///     pad: AlignRight,
+    /// };
+    /// assert_eq!(padded_value.to_string(), "---abcdef");
+    /// ```
+    ///
+    /// **When `value.width()` is greater than `total_width`,
+    /// display `value` as is:**
+    ///
+    /// ```
+    /// # use pretty_assertions::assert_eq;
+    /// use zero_copy_pads::{PaddedValue, AlignRight, IgnoreExcess};
+    /// let padded_value = PaddedValue {
+    ///     handle_excess: IgnoreExcess,
+    ///     value: "abcdefghijkl",
+    ///     pad_block: '-',
+    ///     total_width: 9,
+    ///     pad: AlignRight,
+    /// };
+    /// assert_eq!(padded_value.to_string(), "abcdefghijkl");
+    /// ```
     struct IgnoreExcess;
 
-    #[doc = "Create a [`ExcessHandlingFunction`] that ignores excesses."]
-    #[doc = ""]
-    #[doc = "see [`IgnoreExcess`]."]
+    /// Create a [`ExcessHandlingFunction`] that ignores excesses.
+    ///
+    /// see [`IgnoreExcess`].
     fn ignore_excess;
 }
 
 preset! {
     impl |_, _| Err(Error);
 
-    #[doc = "Forbid all excesses, raise `fmt::Error` once encounter one."]
-    #[doc = ""]
-    #[doc = "**When `value.width()` is not greater than `total_width`,"]
-    #[doc = "add pads as usual:**"]
-    #[doc = "```"]
-    #[doc = "# use pretty_assertions::assert_eq;"]
-    #[doc = "use zero_copy_pads::{PaddedValue, AlignRight, ErrorOnExcess};"]
-    #[doc = "let padded_value = PaddedValue {"]
-    #[doc = r#"    handle_excess: ErrorOnExcess,"#]
-    #[doc = r#"    value: "abcdef","#]
-    #[doc = r#"    pad_block: '-',"#]
-    #[doc = r#"    total_width: 9,"#]
-    #[doc = r#"    pad: AlignRight,"#]
-    #[doc = "};"]
-    #[doc = r#"assert_eq!(padded_value.to_string(), "---abcdef");"#]
-    #[doc = "```"]
-    #[doc = ""]
-    #[doc = "**When `value.width()` is greater than `total_width`,"]
-    #[doc = "return an [`Err`] of [`fmt::Error`](Error):**"]
-    #[doc = "```"]
-    #[doc = "# use pretty_assertions::assert_eq;"]
-    #[doc = "use zero_copy_pads::{PaddedValue, AlignRight, ErrorOnExcess};"]
-    #[doc = "let padded_value = PaddedValue {"]
-    #[doc = r#"    handle_excess: ErrorOnExcess,"#]
-    #[doc = r#"    value: "abcdefghijkl","#]
-    #[doc = r#"    pad_block: '-',"#]
-    #[doc = r#"    total_width: 9,"#]
-    #[doc = r#"    pad: AlignRight,"#]
-    #[doc = "};"]
-    #[doc = "let mut output = String::new();"]
-    #[doc = r#"std::fmt::write("#]
-    #[doc = r#"    &mut output,"#]
-    #[doc = r#"    format_args!("{}", padded_value),"#]
-    #[doc = r#").unwrap_err();"#]
-    #[doc = "```"]
+    /// Forbid all excesses, raise `fmt::Error` once encounter one.
+    ///
+    /// **When `value.width()` is not greater than `total_width`,
+    /// add pads as usual:**
+    ///
+    /// ```
+    /// # use pretty_assertions::assert_eq;
+    /// use zero_copy_pads::{PaddedValue, AlignRight, ErrorOnExcess};
+    /// let padded_value = PaddedValue {
+    ///     handle_excess: ErrorOnExcess,
+    ///     value: "abcdef",
+    ///     pad_block: '-',
+    ///     total_width: 9,
+    ///     pad: AlignRight,
+    /// };
+    /// assert_eq!(padded_value.to_string(), "---abcdef");
+    /// ```
+    ///
+    /// **When `value.width()` is greater than `total_width`,
+    /// return an [`Err`] of [`fmt::Error`](Error):**
+    /// ```
+    ///
+    /// # use pretty_assertions::assert_eq;
+    /// use zero_copy_pads::{PaddedValue, AlignRight, ErrorOnExcess};
+    /// let padded_value = PaddedValue {
+    ///     handle_excess: ErrorOnExcess,
+    ///     value: "abcdefghijkl",
+    ///     pad_block: '-',
+    ///     total_width: 9,
+    ///     pad: AlignRight,
+    /// };
+    /// let mut output = String::new();
+    /// std::fmt::write(
+    ///     &mut output,
+    ///     format_args!("{}", padded_value),
+    /// ).unwrap_err();
+    /// ```
     struct ErrorOnExcess;
 
-    #[doc = "Create a [`ExcessHandlingFunction`] that forbids excesses."]
-    #[doc = ""]
-    #[doc = "see [`ErrorOnExcess`]."]
+    /// Create a [`ExcessHandlingFunction`] that forbids excesses.
+    ///
+    /// see [`ErrorOnExcess`].
     fn error_on_excess;
 }
 
@@ -264,40 +268,42 @@ preset! {
         excess.value_width, excess.total_width,
     );
 
-    #[doc = "Forbid all excesses, panic once encounter one."]
-    #[doc = ""]
-    #[doc = "**When `value.width()` is not greater than `total_width`,"]
-    #[doc = "add pads as usual:**"]
-    #[doc = "```"]
-    #[doc = "# use pretty_assertions::assert_eq;"]
-    #[doc = "use zero_copy_pads::{PaddedValue, AlignRight, PanicOnExcess};"]
-    #[doc = "let padded_value = PaddedValue {"]
-    #[doc = r#"    handle_excess: PanicOnExcess,"#]
-    #[doc = r#"    value: "abcdef","#]
-    #[doc = r#"    pad_block: '-',"#]
-    #[doc = r#"    total_width: 9,"#]
-    #[doc = r#"    pad: AlignRight,"#]
-    #[doc = "};"]
-    #[doc = r#"assert_eq!(padded_value.to_string(), "---abcdef");"#]
-    #[doc = "```"]
-    #[doc = ""]
-    #[doc = "**When `value.width()` is greater than `total_width`, panic:**"]
-    #[doc = "```should_panic"]
-    #[doc = "# use pretty_assertions::assert_eq;"]
-    #[doc = "use zero_copy_pads::{PaddedValue, AlignRight, PanicOnExcess};"]
-    #[doc = "let padded_value = PaddedValue {"]
-    #[doc = r#"    handle_excess: PanicOnExcess,"#]
-    #[doc = r#"    value: "abcdefghijkl","#]
-    #[doc = r#"    pad_block: '-',"#]
-    #[doc = r#"    total_width: 9,"#]
-    #[doc = r#"    pad: AlignRight,"#]
-    #[doc = "};"]
-    #[doc = r#"assert_eq!(padded_value.to_string(), "abcdefghijkl");"#]
-    #[doc = "```"]
+    /// Forbid all excesses, panic once encounter one.
+    ///
+    /// **When `value.width()` is not greater than `total_width`,
+    /// add pads as usual:**
+    ///
+    /// ```
+    /// # use pretty_assertions::assert_eq;
+    /// use zero_copy_pads::{PaddedValue, AlignRight, PanicOnExcess};
+    /// let padded_value = PaddedValue {
+    ///     handle_excess: PanicOnExcess,
+    ///     value: "abcdef",
+    ///     pad_block: '-',
+    ///     total_width: 9,
+    ///     pad: AlignRight,
+    /// };
+    /// assert_eq!(padded_value.to_string(), "---abcdef");
+    /// ```
+    ///
+    /// **When `value.width()` is greater than `total_width`, panic:**
+    ///
+    /// ```should_panic
+    /// # use pretty_assertions::assert_eq;
+    /// use zero_copy_pads::{PaddedValue, AlignRight, PanicOnExcess};
+    /// let padded_value = PaddedValue {
+    ///     handle_excess: PanicOnExcess,
+    ///     value: "abcdefghijkl",
+    ///     pad_block: '-',
+    ///     total_width: 9,
+    ///     pad: AlignRight,
+    /// };
+    /// assert_eq!(padded_value.to_string(), "abcdefghijkl");
+    /// ```
     struct PanicOnExcess;
 
-    #[doc = "Create a [`ExcessHandlingFunction`] that forbids excesses."]
-    #[doc = ""]
-    #[doc = "see [`PanicOnExcess`]."]
+    /// Create a [`ExcessHandlingFunction`] that forbids excesses.
+    ///
+    /// see [`PanicOnExcess`].
     fn panic_on_excess;
 }

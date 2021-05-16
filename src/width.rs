@@ -44,17 +44,17 @@ macro_rules! wrapper {
         pub struct $name<Inner: AsRef<str>>(Inner);
 
         impl<Inner: AsRef<str>> $name<Inner> {
-            #[doc = "Extract the inner value."]
+            /// Extract the inner value.
             pub fn into_inner(self) -> Inner {
                 self.0
             }
 
-            #[doc = "Get reference to inner value."]
+            /// Get reference to inner value.
             pub fn as_inner(&self) -> &'_ Inner {
                 self.as_ref()
             }
 
-            #[doc = "Get reference to inner `str`."]
+            /// Get reference to inner `str`.
             pub fn as_str(&self) -> &'_ str {
                 self.as_ref()
             }
@@ -81,21 +81,21 @@ macro_rules! wrapper {
 }
 
 wrapper! {
-    #[doc = "Treat [`UnicodeWidthStr::width`] as width."]
+    /// Treat [`UnicodeWidthStr::width`] as width.
     UnicodeWidth = UnicodeWidthStr::width
 }
 
 wrapper! {
-    #[doc = "Treat [`UnicodeWidthStr::width_cjk`] as width."]
+    /// Treat [`UnicodeWidthStr::width_cjk`] as width.
     UnicodeWidthCjk = UnicodeWidthStr::width_cjk
 }
 
 wrapper! {
-    #[doc = "Treat character count as width."]
+    /// Treat character count as width.
     CharCount = |x: &str| x.chars().count()
 }
 
 wrapper! {
-    #[doc = "Treat `str::len` as width."]
+    /// Treat `str::len` as width.
     Len = str::len
 }
