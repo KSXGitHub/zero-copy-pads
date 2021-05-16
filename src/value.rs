@@ -90,9 +90,9 @@ where
             return handle_excess.handle_excess(
                 Excess {
                     value,
+                    pad_block,
                     value_width,
                     total_width,
-                    pad_block,
                 },
                 formatter,
             );
