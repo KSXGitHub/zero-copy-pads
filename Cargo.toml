@@ -31,7 +31,7 @@ default = ["std"]
 std = ["derive_builder/std"]
 
 [dependencies]
-derive_more = "^0.99.14"
+derive_more = "^0.99.16"
 fmt-iter = "^0.2.1"
 unicode-width = "^0.1.8"
 
