@@ -33,7 +33,7 @@ std = ["derive_builder/std"]
 [dependencies]
 derive_more = "^0.99.17"
 fmt-iter = "^0.2.1"
-unicode-width = "^0.1.9"
+unicode-width = "^0.1.10"
 
 [dependencies.derive_builder]
 version = "^0.10.2"
